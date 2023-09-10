@@ -2,8 +2,9 @@ import type { TileData } from '@/utils/tiles'
 
 import { Tile } from '../components'
 import { System } from '@/utils/elements'
-import { bgColor, gameMapWidth, genTileData } from '@/utils/tiles'
 
+import { Layers } from '@/utils/layers'
+import { bgColor, gameMapWidth, genTileData } from '@/utils/tiles'
 import { nullthrows } from '@/utils/validate'
 
 export class RenderSystem extends System {
@@ -61,10 +62,14 @@ export class RenderSystem extends System {
           'No tile for ' + tile.tileID
         )
 
+        if (tile.layer === Layers.Visual) ctx.globalAlpha = 0.7
+
         ctx.drawImage(
           imageTile,
           offsetX, offsetY
         )
+
+        if (tile.layer === Layers.Visual) ctx.globalAlpha = 1
       })
   }
 }

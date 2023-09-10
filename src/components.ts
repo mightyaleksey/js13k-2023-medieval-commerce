@@ -92,3 +92,15 @@ export class Walk extends Component {
     this.startFrame = 0
   }
 }
+
+export class State extends Component {
+  stage: string
+  startFrame: number
+
+  constructor (stage: string) {
+    super()
+
+    this.stage = stage
+    this.startFrame = 0
+  }
+}

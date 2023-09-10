@@ -1,4 +1,5 @@
 import { Delay, Direction, Drop, Grab, Haul, Tile } from '../components'
+import { NPC } from '@/entities/npc'
 import { Player } from '@/entities/player'
 import { Sack } from '@/entities/sack'
 import { System } from '@/utils/elements'
@@ -15,13 +16,13 @@ import { Layers } from '@/utils/layers'
 
 export class HaulSystem extends System {
   components?: Haul[]
-  entities?: Array<Player | Sack>
+  entities?: Array<NPC | Player | Sack>
 
   constructor () {
     super()
 
     this._requiredComponents = [Haul]
-    this._requiredEntities = [Player, Sack]
+    this._requiredEntities = [NPC, Player, Sack]
   }
 
   update (elapsedFrames: number, totalFrames: number) {
@@ -41,7 +42,7 @@ export class HaulSystem extends System {
     })
 
     const characters = this.entities!.filter(player =>
-      isInstanceOfAny(player, [Player]))
+      isInstanceOfAny(player, [NPC, Player]))
     const sacks = this.entities!.filter(sack =>
       isInstance(sack, Sack) &&
       !characters.some(player => {

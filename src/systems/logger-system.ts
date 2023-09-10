@@ -1,3 +1,4 @@
+import { NPC } from '@/entities/npc'
 import { Player } from '@/entities/player'
 import { Sack } from '@/entities/sack'
 import { Component, Entity, System } from '@/utils/elements'
@@ -6,7 +7,7 @@ export class LoggerSystem extends System {
   _container: HTMLPreElement
   _lastOutput: number
 
-  entities?: Player[]
+  entities?: Array<NPC | Player | Sack>
 
   constructor () {
     super()
@@ -16,7 +17,7 @@ export class LoggerSystem extends System {
     this._container.style = 'font-size: 14px; margin: 1rem;'
     this._lastOutput = Date.now()
 
-    this._requiredEntities = [Player, Sack]
+    this._requiredEntities = [NPC, Player, Sack]
 
     document.body.append(this._container)
   }

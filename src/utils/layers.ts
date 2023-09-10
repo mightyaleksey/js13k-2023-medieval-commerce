@@ -4,7 +4,8 @@ export const Layers = {
   ObjectsBelow: 2,
   Objects: 4,
   ObjectsAbove: 6,
-  Tops: 7
+  Visual: 5,
+  Tops: 9
 } as const
 
 export type LayerType = typeof Layers[keyof typeof Layers]
