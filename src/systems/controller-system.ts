@@ -1,6 +1,6 @@
 import { Player } from '@/entities/player'
 import { System } from '@/utils/elements'
-import { Drop, Grab, Haul, Tile, Walk } from '../components'
+import { Delay, Drop, Grab, Haul, Tile, Walk } from '../components'
 import Controls from '@/state/controls'
 
 import { findInstance } from '@/utils/helpers'
@@ -17,7 +17,7 @@ export class ControllerSystem extends System {
     this._requiredEntities = [Player]
   }
 
-  update () {
+  update (elapsedFrames: number, totalFrames: number) {
     const player = nullthrows(this.entities)[0]
     const tile = player.components[0] as Tile
 
@@ -26,7 +26,8 @@ export class ControllerSystem extends System {
       Controls.isLeft ||
       Controls.isRight ||
       Controls.isUp
-    const walk = findInstance(player.components, Walk)
+    const walk =
+      findInstance(player.components, Walk)
 
     if (isMoving && walk == null) {
       const x = tile.x + (Controls.isLeft ? -1 : Controls.isRight ? 1 : 0)
@@ -38,20 +39,20 @@ export class ControllerSystem extends System {
       )
     }
 
-    const grab = findInstance(player.components, Grab)
-    const haul = findInstance(player.components, Haul)
-
     if (Controls.isAction) {
-      if (grab == null) {
-        player.components.push(
-          new Grab()
-        )
-      }
+      const delay = findInstance(player.components, Delay)
+      if (delay == null) {
+        const haul = findInstance(player.components, Haul)
 
-      if (haul != null) {
-        player.components.push(
-          new Drop()
-        )
+        if (haul != null) {
+          player.components.push(
+            new Drop()
+          )
+        } else {
+          player.components.push(
+            new Grab()
+          )
+        }
       }
     }
   }

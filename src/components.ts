@@ -34,34 +34,39 @@ export class Direction extends Component {
   }
 }
 
-export class Drop extends Component {}
-
-export class Grab extends Component {
-  isValidated: boolean
+export class Delay extends Component {
+  frames: number
   startFrame: number
 
-  constructor () {
+  constructor (
+    frames: number,
+    startFrame: number
+  ) {
     super()
 
-    this.isValidated = false
-    this.startFrame = 0
+    this.frames = frames
+    this.startFrame = startFrame
   }
 }
 
+export class Drop extends Component {}
+
+export class Grab extends Component {}
+
 export class Haul extends Component {
-  origin: Tile
-  target: Tile
+  player: Tile
+  sack: Tile
   direction: Direction
 
   constructor (
-    origin: Tile,
-    target: Tile,
+    player: Tile,
+    sack: Tile,
     direction: Direction
   ) {
     super()
 
-    this.origin = origin
-    this.target = target
+    this.player = player
+    this.sack = sack
     this.direction = direction
   }
 }

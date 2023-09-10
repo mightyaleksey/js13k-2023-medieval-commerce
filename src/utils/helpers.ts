@@ -28,6 +28,7 @@ export function removeInstance (
   collection: Component[],
   instance: Component
 ) {
+  invariant(typeof instance === 'object', 'invalid instance provided')
   const elemIndex = collection.findIndex(elem => elem === instance)
   invariant(elemIndex > -1, 'failed to remove instance')
   collection.splice(elemIndex, 1)
