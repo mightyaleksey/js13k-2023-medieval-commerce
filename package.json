@@ -4,19 +4,16 @@
   "main": "index.js",
   "devDependencies": {
     "@rollup/plugin-typescript": "8.5.0",
-    "@typescript-eslint/eslint-plugin": "^5.52.0",
     "@typescript-eslint/parser": "5.62.0",
     "clean-css": "5.3.2",
     "copy-webpack-plugin": "9.0.1",
     "cross-env": "7.0.3",
     "ect-bin": "1.4.1",
-    "google-closure-compiler": "^20230206.0.0",
     "html-minifier": "4.0.0",
     "html-webpack-plugin": "5.3.2",
     "npm-run-all": "4.1.5",
     "roadroller": "2.1.0",
     "standard": "17.1.0",
-    "tmp": "^0.2.1",
     "ts-loader": "9.2.5",
     "ts-standard": "12.0.2",
     "typescript": "4.9.5",
@@ -32,8 +29,7 @@
     "ignore": [
       "find-best-roadroller.js",
       "next-env.d.ts",
-      "tsconfig.json",
-      "vite.config.ts"
+      "tsconfig.json"
     ],
     "globals": [
       "AnimationEvent",

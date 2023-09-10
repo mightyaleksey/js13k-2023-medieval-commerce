@@ -2,7 +2,6 @@ import type { TileData } from '@/utils/tiles'
 
 import { Tile } from '../components'
 import { System } from '@/utils/elements'
-import { Layers } from '@/utils/layers'
 import { bgColor, gameMapWidth, genTileData } from '@/utils/tiles'
 
 import { nullthrows } from '@/utils/validate'
