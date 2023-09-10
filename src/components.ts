@@ -1,4 +1,5 @@
 import type { LayerType } from './utils/layers'
+import type { StateType } from './utils/states'
 import type { TileType } from './utils/tiles'
 
 import { Component } from './utils/elements'
@@ -71,6 +72,18 @@ export class Haul extends Component {
   }
 }
 
+export class State extends Component {
+  stage: StateType
+  startFrame: number
+
+  constructor (stage: StateType) {
+    super()
+
+    this.stage = stage
+    this.startFrame = 0
+  }
+}
+
 export class Walk extends Component {
   x: number
   y: number
@@ -89,18 +102,6 @@ export class Walk extends Component {
 
     this.isBlocked = false
     this.isValidated = false
-    this.startFrame = 0
-  }
-}
-
-export class State extends Component {
-  stage: string
-  startFrame: number
-
-  constructor (stage: string) {
-    super()
-
-    this.stage = stage
     this.startFrame = 0
   }
 }
