@@ -20,6 +20,8 @@ export const Tiles = {
   E_STORE_ENTRANCE_1: 10,
   E_TREE_BIRCH: 11,
 
+  I_NPC_1: 14,
+  I_NPC_2: 15,
   E_STORE_TOWER_0: 16,
   E_STORE_WALL: 17,
   E_STORE_ENTRANCE_0: 18,
