@@ -3,7 +3,8 @@ import { nullthrows } from './validate'
 export const bgColor = '#472d3c'
 export const gameMapWidth = 18
 export const gameMapHeight = 14
-export const gameMapLength = gameMapWidth * gameMapHeight
+// adds extra to support negative numbers for map borders
+export const gameMapLength = (gameMapWidth + 4) * (gameMapHeight + 3)
 export const gameTileWidth = 16
 
 export const Tiles = {
@@ -12,6 +13,7 @@ export const Tiles = {
   S_WATER_DEPTH: 1,
   E_STORE_ENTRANCE_2: 2,
   E_TREE_FIR: 3,
+  S_BG: 4,
 
   I_PLAYER: 6,
   I_NPC_0: 7,

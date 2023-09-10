@@ -18,7 +18,8 @@ export function getAngle (to: Tile | Walk, from: Tile | Walk): number {
 }
 
 export function genObstacleKey (tile: Tile | Walk): number {
-  return tile.x + tile.y * gameMapWidth
+  // adds extra to support negative numbers for map borders
+  return (tile.x + 2) + (tile.y + 2) * (gameMapWidth + 4)
 }
 
 export function genObstacleMap (components: Component[]): number[] {

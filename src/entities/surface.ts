@@ -16,21 +16,25 @@ export class Surface extends Entity {
         new Tile(x, 4, Layers.Surface, Tiles.S_WATER_DEPTH),
         new Tile(x, 5, Layers.Surface, Tiles.S_WATER_SHORE_I)
       )
-    })
 
-    iterate(12, x => {
+      x < 12 && // 0, 12
       this.components.push(
         new Tile(x, 13, Layers.Surface, x % 2 === 0
           ? Tiles.S_ROAD_HORIZONTAL
           : Tiles.S_ROAD_HORIZONTAL_I)
       )
-    })
 
-    iterate(13, 18, x => {
+      x > 12 && // 13, 18
       this.components.push(
         new Tile(x, 13, Layers.Surface, x % 2 === 0
           ? Tiles.S_ROAD_HORIZONTAL
           : Tiles.S_ROAD_HORIZONTAL_I)
+      )
+
+      x < 10 &&
+      this.components.push(
+        new Tile(x, 6, Layers.ObjectsBelow, Tiles.E_WOODEN_WALL),
+        new Tile(x, 12, Layers.ObjectsBelow, Tiles.E_WOODEN_WALL)
       )
     })
 
@@ -98,13 +102,6 @@ export class Surface extends Entity {
       new Tile(17, 0, Layers.ObjectsBelow, Tiles.E_WOODEN_WALL)
     )
 
-    iterate(0, 10, x => {
-      this.components.push(
-        new Tile(x, 6, Layers.ObjectsBelow, Tiles.E_WOODEN_WALL),
-        new Tile(x, 12, Layers.ObjectsBelow, Tiles.E_WOODEN_WALL)
-      )
-    })
-
     iterate(7, 12, y => {
       this.components.push(
         new Tile(0, y, Layers.ObjectsBelow, Tiles.E_WOODEN_WALL)
@@ -143,5 +140,30 @@ export class Surface extends Entity {
         new Tile(x, 11, Layers.Tops, Tiles.T_WOODEN_ROOF_H)
       )
     })
+
+    /* map borders */
+
+    iterate(-1, 19, x => {
+      x !== 12 && this.components.push(
+        new Tile(x, -1, Layers.ObjectsBelow, Tiles.S_BG)
+      )
+
+      this.components.push(
+        new Tile(x, 14, Layers.ObjectsBelow, Tiles.S_BG)
+      )
+    })
+
+    iterate(13, y => {
+      this.components.push(
+        new Tile(-1, y, Layers.ObjectsBelow, Tiles.S_BG),
+        new Tile(18, y, Layers.ObjectsBelow, Tiles.S_BG)
+      )
+    })
+
+    this.components.push(
+      new Tile(12, -2, Layers.ObjectsBelow, Tiles.S_BG),
+      new Tile(-2, 13, Layers.ObjectsBelow, Tiles.S_BG),
+      new Tile(19, 13, Layers.ObjectsBelow, Tiles.S_BG)
+    )
   }
 }
