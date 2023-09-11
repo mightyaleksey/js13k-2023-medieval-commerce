@@ -95,6 +95,8 @@ export class GameSystem extends System {
         }
 
         case States.Wait: {
+          // todo add waiting time
+          // todo add rewards
           if (state.startFrame === 0) state.startFrame = totalFrames
 
           const requestedSack = npc.components.find(tile =>
