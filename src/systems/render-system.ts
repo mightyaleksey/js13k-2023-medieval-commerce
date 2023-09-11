@@ -2,6 +2,7 @@ import type { TileData } from '@/utils/tiles'
 
 import { Tile } from '../components'
 import { System } from '@/utils/elements'
+import game from '@/state/game'
 
 import { Layers } from '@/utils/layers'
 import { bgColor, gameMapWidth, genTileData } from '@/utils/tiles'
@@ -34,6 +35,7 @@ export class RenderSystem extends System {
     })
 
     const ctx = this._canvasContext = nullthrows(this._canvas.getContext('2d'))
+    ctx.font = `${Math.round(tileWidth * 0.6)}px georgia`
     ctx.imageSmoothingEnabled = false
   }
 
@@ -71,5 +73,25 @@ export class RenderSystem extends System {
 
         if (tile.layer === Layers.Visual) ctx.globalAlpha = 1
       })
+
+    ctx.globalAlpha = 0.5
+    ctx.fillRect(
+      tileWidth * 0.4, tileWidth * 0.2,
+      tileWidth * 6.1, tileWidth * 0.9
+    )
+    ctx.globalAlpha = 1
+
+    ctx.fillStyle = '#e6e2da'
+    ctx.fillText(
+      `silver: ${game.silver}`,
+      Math.round(tileWidth * 0.5),
+      Math.round(tileWidth * 0.8)
+    )
+
+    ctx.fillText(
+      `fame: ${game.silver}`,
+      Math.round(tileWidth * 3.7),
+      Math.round(tileWidth * 0.8)
+    )
   }
 }
