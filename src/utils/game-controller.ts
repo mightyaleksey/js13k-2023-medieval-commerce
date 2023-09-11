@@ -1,6 +1,6 @@
 import { Component, Entity, System } from './elements'
 
-import { isInstance, isInstanceOfAny } from './helpers'
+import { difference, isInstance, isInstanceOfAny } from './helpers'
 import { invariant } from './validate'
 
 /**
@@ -68,6 +68,28 @@ export class GameController {
       this._updateSystem(system))
   }
 
+  _updateEntities (system: System) {
+    invariant(system._requiredEntities != null,
+      'system should define required entities in advance')
+    const originalEntities = this._entities.filter(entity =>
+      isInstanceOfAny(entity, system._requiredEntities!))
+
+    const deletedEntities = difference(originalEntities, system.entities!)
+    const createdEntities = difference(system.entities!, originalEntities)
+
+    // remove entities from the list
+    let length = this._entities.length
+    while (length--) {
+      if (deletedEntities.includes(this._entities[length])) {
+        this._entities.splice(length, 1)
+      }
+    }
+
+    // add entities to the list
+    this._entities.push(...createdEntities)
+    this._updateComponents()
+  }
+
   _updateSystem (system: System) {
     if (system._requiredComponents != null) {
       system.components = this._components.filter(component =>
@@ -86,15 +108,24 @@ export class GameController {
     this._systems.forEach(system => {
       const startTime = Date.now()
 
-      const snapshot = system.entities?.map(entity => entity.components.length)
+      const entitiesLength = system.entities?.length
+      const componentsLengthList = system.entities?.map(e => e.components.length)
       system.update(elapsedFrames, totalFrames, this._perf)
 
-      const hasChange =
-        snapshot != null &&
-        snapshot.some((count, index) =>
-          system.entities?.[index].components.length !== count)
-
-      if (hasChange) this._updateComponents()
+      if (
+        entitiesLength != null &&
+        entitiesLength !== system.entities?.length
+      ) {
+        // entities list was updated
+        this._updateEntities(system)
+      } else if (
+        componentsLengthList != null &&
+        componentsLengthList.some((ct, n) =>
+          system.entities?.[n].components.length !== ct)
+      ) {
+        // list components inside entity was changed
+        this._updateComponents()
+      }
 
       this._perf[system.constructor.name] = Date.now() - startTime
     })
