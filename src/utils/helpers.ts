@@ -34,6 +34,13 @@ export function removeInstance (
   collection.splice(elemIndex, 1)
 }
 
+export function difference <T> (
+  left: T[],
+  right: T[]
+): T[] {
+  return left.filter(elem => !right.includes(elem))
+}
+
 export function iterate (
   start: number,
   end: number | ((step: number) => void),

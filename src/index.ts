@@ -1,11 +1,10 @@
-import { NPC } from './entities/npc'
 import { Player } from './entities/player'
 import { Sack } from './entities/sack'
 import { Surface } from './entities/surface'
 import { ControllerSystem } from './systems/controller-system'
 import { DelaySystem } from './systems/delay-system'
 import { DirectionSystem } from './systems/direction-system'
-import { GameSystem } from './systems/game-system'
+import { TradeSystem } from './systems/trade-system'
 import { HaulSystem } from './systems/haul-system'
 import { LoggerSystem } from './systems/logger-system'
 import { RenderSystem } from './systems/render-system'
@@ -15,9 +14,9 @@ import { GameController } from './utils/game-controller'
 const fps = 48 // 21ms per frame
 
 const gameController = new GameController(
-  [Surface, NPC, Player, Sack],
+  [Surface, Player, Sack],
   [
-    ControllerSystem, DelaySystem, DirectionSystem, GameSystem,
+    ControllerSystem, DelaySystem, DirectionSystem, TradeSystem,
     HaulSystem, WalkSystem, RenderSystem,
     LoggerSystem
   ]

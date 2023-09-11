@@ -23,7 +23,7 @@ import { getElapsedFrames } from '@/utils/collision'
 //   - wait time too long - leave
 //   - got resource - pick - leave
 
-export class GameSystem extends System {
+export class TradeSystem extends System {
   entities?: Array<NPC | Sack>
 
   constructor () {
@@ -33,12 +33,11 @@ export class GameSystem extends System {
   }
 
   update (elapsedFrames: number, totalFrames: number) {
+    const npcs = this.entities!.filter(npc => isInstance(npc, NPC))
     const sacks = this.entities!.filter(sack =>
       isInstance(sack, Sack))
 
-    this.entities!.forEach(npc => {
-      if (!isInstance(npc, NPC)) return
-
+    npcs.forEach(npc => {
       const direction = npc.components[1] as Direction
       const state = npc.components[2] as State
       const tile = npc.components[0] as Tile
@@ -147,5 +146,18 @@ export class GameSystem extends System {
         }
       }
     })
+
+    if ( // add npc to the system
+      (npcs.length === 0 &&
+      totalFrames < 50) ||
+      (npcs.length === 1 &&
+      totalFrames > 300)
+    ) {
+      const npc = new NPC()
+      if (npcs.length === 1) (npc.components[0] as Tile).tileID = Tiles.I_NPC_2
+      this.entities!.push(
+        npc
+      )
+    }
   }
 }
