@@ -3,6 +3,7 @@ import { Tile, Walk } from '../components'
 
 import { gameMapWidth, gameMapLength } from './tiles'
 import { isInstance } from './helpers'
+import { invariant, nullthrows } from './validate'
 
 // maps angle to coordinate offset
 export const offsetX = [0, 1, 0, -1]
@@ -17,9 +18,17 @@ export function getAngle (to: Tile | Walk, from: Tile | Walk): number {
   return 0
 }
 
-export function genObstacleKey (tile: Tile | Walk): number {
-  // adds extra to support negative numbers for map borders
-  return (tile.x + 2) + (tile.y + 2) * (gameMapWidth + 4)
+export function genObstacleKey (
+  tile: Tile | Walk | number,
+  y?: number
+): number {
+  if (tile instanceof Component) {
+    // adds extra to support negative numbers for map borders
+    return (tile.x + 2) + (tile.y + 2) * (gameMapWidth + 4)
+  }
+
+  invariant(typeof tile === 'number')
+  return (tile + 2) + (nullthrows(y) + 2) * (gameMapWidth + 4)
 }
 
 export function genObstacleMap (components: Component[]): number[] {

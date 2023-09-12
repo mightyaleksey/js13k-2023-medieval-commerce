@@ -86,6 +86,18 @@ export class State extends Component {
   }
 }
 
+export class Throw extends Component {
+  x: number
+  y: number
+
+  constructor (x: number, y: number) {
+    super()
+
+    this.x = x
+    this.y = y
+  }
+}
+
 export class Walk extends Component {
   x: number
   y: number

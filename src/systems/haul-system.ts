@@ -1,9 +1,11 @@
-import { Delay, Direction, Drop, Grab, Haul, Tile } from '../components'
+import { Delay, Direction, Drop, Grab, Haul, Throw, Tile } from '../components'
 import { NPC } from '@/entities/npc'
 import { Player } from '@/entities/player'
+import { Provider } from '@/entities/provider'
 import { Sack } from '@/entities/sack'
 import { System } from '@/utils/elements'
 
+import { Layers } from '@/utils/layers'
 import {
   isInstance,
   isInstanceOfAny,
@@ -12,17 +14,16 @@ import {
 } from '@/utils/helpers'
 import { offsetX, offsetY } from '@/utils/collision'
 import { invariant, nullthrows } from '@/utils/validate'
-import { Layers } from '@/utils/layers'
 
 export class HaulSystem extends System {
   components?: Haul[]
-  entities?: Array<NPC | Player | Sack>
+  entities?: Array<NPC | Player | Provider | Sack>
 
   constructor () {
     super()
 
     this._requiredComponents = [Haul]
-    this._requiredEntities = [NPC, Player, Sack]
+    this._requiredEntities = [NPC, Player, Provider, Sack]
   }
 
   update (elapsedFrames: number, totalFrames: number) {
@@ -42,7 +43,7 @@ export class HaulSystem extends System {
     })
 
     const characters = this.entities!.filter(player =>
-      isInstanceOfAny(player, [NPC, Player]))
+      isInstanceOfAny(player, [NPC, Player, Provider]))
     const sacks = this.entities!.filter(sack =>
       isInstance(sack, Sack) &&
       !characters.some(player => {
@@ -72,8 +73,13 @@ export class HaulSystem extends System {
         })
 
         if (sack != null) {
+          if (isInstance(player, Player)) {
+            player.components.push(
+              new Delay(10, totalFrames)
+            )
+          }
+
           player.components.push(
-            new Delay(10, totalFrames),
             new Haul(tile, sack.components[0] as Tile, direction)
           )
         }
@@ -106,6 +112,19 @@ export class HaulSystem extends System {
         }
 
         removeInstance(player.components, drop)
+      }
+
+      const throwSack = findInstance(player.components, Throw)
+      if (throwSack != null) {
+        const haul = nullthrows(
+          findInstance(player.components, Haul)
+        ) as Haul
+
+        haul.sack.x = throwSack.x
+        haul.sack.y = throwSack.y
+
+        removeInstance(player.components, haul)
+        removeInstance(player.components, throwSack)
       }
     })
   }

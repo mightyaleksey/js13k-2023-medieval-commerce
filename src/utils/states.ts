@@ -22,9 +22,10 @@ export const States = {
   Idle: 0,
   Start: 1, // reset state
   GoShopping: 2,
-  Wait: 3,
-  GoHome: 4,
-  Done: 5
+  GoStorage: 3,
+  Wait: 4,
+  GoHome: 5,
+  Done: 6
 } as const
 
 export type StateType = typeof States[keyof typeof States]

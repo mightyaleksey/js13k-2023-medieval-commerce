@@ -1,5 +1,6 @@
 import { NPC } from '@/entities/npc'
 import { Player } from '@/entities/player'
+import { Provider } from '@/entities/provider'
 import { Tile, Walk } from '../components'
 import { System } from '@/utils/elements'
 
@@ -18,13 +19,13 @@ export class WalkSystem extends System {
   _walkTreshold: number
 
   components?: Array<Tile | Walk>
-  entities?: Array<NPC | Player>
+  entities?: Array<NPC | Player | Provider>
 
   constructor () {
     super()
 
     this._requiredComponents = [Tile, Walk]
-    this._requiredEntities = [NPC, Player]
+    this._requiredEntities = [NPC, Player, Provider]
 
     this._walkSpeed = 0.05 // 20 frames per tile
     this._walkStep = 0.2

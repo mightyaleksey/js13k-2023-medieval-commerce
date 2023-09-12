@@ -6,12 +6,12 @@ import { Tiles } from '@/utils/tiles'
 
 import { States } from '@/utils/states'
 
-export class NPC extends Entity {
+export class Provider extends Entity {
   constructor () {
     super()
 
     this.components.push(
-      new Tile(0, -2, Layers.Objects, Tiles.I_NPC_0),
+      new Tile(-2, 9, Layers.Objects, Tiles.I_NPC_1),
       new Direction(0),
       new State(States.Idle)
     )

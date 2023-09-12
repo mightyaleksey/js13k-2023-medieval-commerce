@@ -9,7 +9,7 @@ export class Player extends Entity {
     super()
 
     this.components.push(
-      new Tile(10, 6, Layers.Objects, Tiles.I_PLAYER),
+      new Tile(8, 8, Layers.Objects, Tiles.I_PLAYER),
       new Direction(0)
     )
   }
