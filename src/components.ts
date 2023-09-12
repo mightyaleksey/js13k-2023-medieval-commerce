@@ -75,12 +75,14 @@ export class Haul extends Component {
 export class State extends Component {
   stage: StateType
   startFrame: number
+  step: number
 
   constructor (stage: StateType) {
     super()
 
     this.stage = stage
     this.startFrame = 0
+    this.step = 0
   }
 }
 

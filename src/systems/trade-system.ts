@@ -7,14 +7,14 @@ import { Layers } from '@/utils/layers'
 import {
   States,
   startX, startY,
-  shoppingX, shoppingY,
-  crossX, crossY,
-  doneX, doneY
+  shoppingX, shoppingY0, shoppingY1,
+  leavePath0, leavePath1
 } from '@/utils/states'
 import { Tiles } from '@/utils/tiles'
-import { invariant } from '@/utils/validate'
+import { invariant, nullthrows } from '@/utils/validate'
 import { findInstance, isInstance, removeInstance } from '@/utils/helpers'
 import { getElapsedFrames } from '@/utils/collision'
+import game from '@/state/game'
 
 // npc logic
 // - idle -> go to table
@@ -22,6 +22,16 @@ import { getElapsedFrames } from '@/utils/collision'
 // - request made -> wait
 //   - wait time too long - leave
 //   - got resource - pick - leave
+
+// 21ms per frame
+// 20 frames per tile
+// full cycle min = waitBeforeStart + 10 * fpt + waitBeforeTrade + 10 * fpt
+//                = 400 + waitBeforeStart + waitBeforeTrade
+const waitBeforeStart = 100
+const waitBeforeTrade = 25
+const waitForTrade = 100
+const fameBonus = 5
+const silverBonus = 10
 
 export class TradeSystem extends System {
   entities?: Array<NPC | Sack>
@@ -42,16 +52,21 @@ export class TradeSystem extends System {
       const state = npc.components[2] as State
       const tile = npc.components[0] as Tile
       invariant(isInstance(state, State))
+      const isWizard = tile.tileID === Tiles.I_NPC_0
 
       const walk = findInstance(npc.components, Walk)
 
       switch (state.stage) {
         case States.Idle: {
           if (state.startFrame === 0) state.startFrame = totalFrames
-          if (getElapsedFrames(totalFrames, state.startFrame) > 50) {
+          if (getElapsedFrames(totalFrames, state.startFrame) > waitBeforeStart) {
             state.startFrame = 0
             state.stage = States.Start
           }
+
+          tile.x = -0
+          tile.y = -2
+
           break
         }
 
@@ -66,6 +81,7 @@ export class TradeSystem extends System {
         case States.GoShopping: {
           if (walk != null) break
 
+          const shoppingY = isWizard ? shoppingY0 : shoppingY1
           if (tile.y < shoppingY) {
             npc.components.push(
               new Walk(shoppingX, tile.y + 1, tile)
@@ -79,13 +95,17 @@ export class TradeSystem extends System {
             // shopping table reached
             if (state.startFrame === 0) state.startFrame = totalFrames
             // wait a bit before making request
-            if (getElapsedFrames(totalFrames, state.startFrame) > 25) {
+            if (getElapsedFrames(totalFrames, state.startFrame) > waitBeforeTrade) {
               direction.angle = 3
               state.stage = States.Wait
               state.startFrame = 0
 
+              const tileID = isWizard
+                ? Tiles.I_SACK_SALT
+                : Tiles.I_SACK_GRAIN
+
               npc.components.push(
-                new Tile(shoppingX - 1, shoppingY, Layers.Visual, Tiles.I_SACK_SALT)
+                new Tile(tile.x - 1, tile.y, Layers.Visual, tileID)
               )
             }
           }
@@ -94,13 +114,18 @@ export class TradeSystem extends System {
         }
 
         case States.Wait: {
-          // todo add waiting time
-          // todo add rewards
-          if (state.startFrame === 0) state.startFrame = totalFrames
-
           const requestedSack = npc.components.find(tile =>
             isInstance(tile, Tile) &&
             (tile as Tile).layer === Layers.Visual) as Tile
+
+          if (state.startFrame === 0) state.startFrame = totalFrames
+          if (getElapsedFrames(totalFrames, state.startFrame) > waitForTrade) {
+            game.fame -= fameBonus * 2
+            state.stage = States.GoHome
+            state.startFrame = 0
+            removeInstance(npc.components, requestedSack)
+            break
+          }
 
           const availableSack = sacks.find(sack => {
             const tile = sack.components[0] as Tile
@@ -111,6 +136,8 @@ export class TradeSystem extends System {
             )
           })
           if (availableSack != null) {
+            game.fame += fameBonus
+            game.silver += silverBonus
             state.stage = States.GoHome
             state.startFrame = 0
 
@@ -125,22 +152,44 @@ export class TradeSystem extends System {
         }
 
         case States.GoHome: {
-          const haul = findInstance(npc.components, Haul)
-          if (haul == null) break
           if (walk != null) break
+          if (state.step === 0) state.step = 1
 
-          if (tile.y < crossY) {
-            npc.components.push(
-              new Walk(crossX, tile.y + 1, tile)
-            )
-          } else if (tile.x < doneX) {
-            npc.components.push(
-              new Walk(tile.x + 1, doneY, tile)
-            )
-          } else {
-            state.stage = States.Done
-            state.startFrame = 0
+          const destination = isWizard
+            ? leavePath0[state.step - 1]
+            : leavePath1[state.step - 1]
+          if (destination != null) {
+            if (tile.x < destination[0]) {
+              npc.components.push(
+                new Walk(tile.x + 1, tile.y, tile)
+              )
+            } else if (tile.y < destination[1]) {
+              npc.components.push(
+                new Walk(tile.x, tile.y + 1, tile)
+              )
+            } else {
+              state.step += 1
+            }
+            break
           }
+
+          state.stage = States.Done
+          state.startFrame = 0
+          state.step = 0
+
+          break
+        }
+
+        case States.Done: {
+          const haul = findInstance(npc.components, Haul)
+          if (haul != null) {
+            const sack = sacks.find(sack => sack.components[0] === haul.sack)
+            removeInstance(this.entities!, nullthrows(sack))
+            removeInstance(npc.components, haul)
+          }
+
+          state.stage = States.Idle
+          state.startFrame = 0
 
           break
         }

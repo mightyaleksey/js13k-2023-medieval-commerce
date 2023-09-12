@@ -4,7 +4,7 @@ class Game {
 
   constructor () {
     this.fame = 100
-    this.silver = 100
+    this.silver = 0
   }
 }
 

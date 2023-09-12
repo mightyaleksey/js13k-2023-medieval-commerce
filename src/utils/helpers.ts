@@ -25,8 +25,8 @@ export function findInstance<T extends typeof Component> (
 }
 
 export function removeInstance (
-  collection: Component[],
-  instance: Component
+  collection: Array<Component | Entity>,
+  instance: Component | Entity
 ) {
   invariant(typeof instance === 'object', 'invalid instance provided')
   const elemIndex = collection.findIndex(elem => elem === instance)

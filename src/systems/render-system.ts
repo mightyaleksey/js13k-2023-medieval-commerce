@@ -89,7 +89,7 @@ export class RenderSystem extends System {
     )
 
     ctx.fillText(
-      `fame: ${game.silver}`,
+      `fame: ${game.fame}`,
       Math.round(tileWidth * 3.7),
       Math.round(tileWidth * 0.8)
     )

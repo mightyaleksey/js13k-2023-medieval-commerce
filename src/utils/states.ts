@@ -1,11 +1,22 @@
 export const startX = 12
 export const startY = -1
+
 export const shoppingX = 12
-export const shoppingY = 9
-export const crossX = 12
-export const crossY = 13
-export const doneX = 18
-export const doneY = 13
+export const shoppingY0 = 9
+export const shoppingY1 = 8
+
+export const leavePath0 = [
+  [12, 13],
+  [18, 13]
+]
+
+export const leavePath1 = [
+  [13, 8],
+  [13, 12],
+  [17, 12],
+  [17, 13],
+  [18, 13]
+]
 
 export const States = {
   Idle: 0,
