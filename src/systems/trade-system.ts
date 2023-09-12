@@ -28,7 +28,7 @@ import game from '@/state/game'
 // full cycle min = waitBeforeStart + 10 * fpt + waitBeforeTrade + 10 * fpt
 //                = 400 + waitBeforeStart + waitBeforeTrade
 const waitBeforeStart = 100
-const waitBeforeTrade = 25
+const waitBeforeTrade = 15
 const waitForTrade = 100
 const fameBonus = 5
 const silverBonus = 10
@@ -198,9 +198,9 @@ export class TradeSystem extends System {
 
     if ( // add npc to the system
       (npcs.length === 0 &&
-      totalFrames < 50) ||
+      totalFrames < 10) ||
       (npcs.length === 1 &&
-      totalFrames > 300)
+      totalFrames > 400)
     ) {
       const npc = new NPC()
       if (npcs.length === 1) (npc.components[0] as Tile).tileID = Tiles.I_NPC_2
