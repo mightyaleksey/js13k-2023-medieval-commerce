@@ -18,6 +18,8 @@ export class ControllerSystem extends System {
   }
 
   update (elapsedFrames: number, totalFrames: number) {
+    if (elapsedFrames === 0) return // handle pause system
+
     const player = nullthrows(this.entities)[0]
     const tile = player.components[0] as Tile
 

@@ -14,6 +14,7 @@ import { TradeSystem } from './systems/trade-system'
 import { WalkSystem } from './systems/walk-system'
 
 import { GameController } from './utils/game-controller'
+import game from './state/game'
 
 const fps = 48 // 21ms per frame
 
@@ -32,7 +33,9 @@ function animate (
   startTime = Date.now()
 ) {
   const currentTime = Date.now()
-  const elapsedFrames = (currentTime - startTime) * fps / 1000
+  const elapsedFrames = game.isPaused
+    ? 0
+    : (currentTime - startTime) * fps / 1000
   const result = fn(elapsedFrames) // wrap with try catch?
 
   if (result !== false) {

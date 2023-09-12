@@ -36,6 +36,7 @@ export class WalkSystem extends System {
     const walkComponents = this.components!.filter(component =>
       isInstance(component, Walk)) as Walk[]
     if (walkComponents.length === 0) return
+    if (elapsedFrames === 0) return // handle pause system
 
     const obstacleMap = genObstacleMap(this.components!)
     walkComponents.forEach(walk => {
