@@ -33,7 +33,11 @@ export class Surface extends Entity {
 
       x < 10 &&
       this.components.push(
-        new Tile(x, 6, Layers.ObjectsBelow, Tiles.E_WOODEN_WALL),
+        new Tile(x, 6, Layers.ObjectsBelow, Tiles.E_WOODEN_WALL)
+      )
+
+      x !== 4 && x !== 5 && x < 10 &&
+      this.components.push(
         new Tile(x, 12, Layers.ObjectsBelow, Tiles.E_WOODEN_WALL)
       )
     })
@@ -56,6 +60,9 @@ export class Surface extends Entity {
       new Tile(12, 13, Layers.Surface, Tiles.S_ROAD_CROSS_T),
       new Tile(12, 2, Layers.Surface, Tiles.E_STORE_ENTRANCE_0),
       new Tile(12, 6, Layers.Surface, Tiles.E_STORE_ENTRANCE_0),
+
+      new Tile(4, 12, Layers.Surface, Tiles.E_WOODEN_DOOR_LEFT),
+      new Tile(5, 12, Layers.Surface, Tiles.E_WOODEN_DOOR_RIGHT),
 
       // objects
       new Tile(0, 1, Layers.Tops, Tiles.E_STORE_TOWER_1),
