@@ -4,12 +4,14 @@ import { Provider } from '@/entities/provider'
 import { Tile, Walk } from '../components'
 import { System } from '@/utils/elements'
 
+import { GameStates } from '@/utils/states'
 import {
   genObstacleKey, genObstacleMap,
   getAngle, getElapsedFrames,
   offsetX, offsetY
 } from '@/utils/collision'
 import { findInstance, isInstance, removeInstance } from '@/utils/helpers'
+import game from '@/state/game'
 
 // animate character movement
 // detect collisions
@@ -36,7 +38,7 @@ export class WalkSystem extends System {
     const walkComponents = this.components!.filter(component =>
       isInstance(component, Walk)) as Walk[]
     if (walkComponents.length === 0) return
-    if (elapsedFrames === 0) return // handle pause system
+    if (game.stage !== GameStates.Game) return // handle pause system
 
     const obstacleMap = genObstacleMap(this.components!)
     walkComponents.forEach(walk => {

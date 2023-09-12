@@ -1,11 +1,15 @@
+import type { GameStatesType } from '@/utils/states'
+
+import { GameStates } from '@/utils/states'
+
 class Game {
-  isPaused: boolean
+  stage: GameStatesType
 
   fame: number
   silver: number
 
   constructor () {
-    this.isPaused = false
+    this.stage = GameStates.PrepareIntro
 
     this.fame = 100
     this.silver = 0

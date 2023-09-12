@@ -4,6 +4,26 @@ import type { TileType } from './utils/tiles'
 
 import { Component } from './utils/elements'
 
+export class Header extends Component {
+  text: string
+
+  constructor (text: string) {
+    super()
+
+    this.text = text
+  }
+}
+
+export class Paragraph extends Component {
+  text: string
+
+  constructor (text: string) {
+    super()
+
+    this.text = text
+  }
+}
+
 export class Tile extends Component {
   x: number
   y: number
@@ -25,6 +45,8 @@ export class Tile extends Component {
   }
 }
 
+/* process */
+
 export class Direction extends Component {
   angle: number
 
@@ -34,25 +56,6 @@ export class Direction extends Component {
     this.angle = angle
   }
 }
-
-export class Delay extends Component {
-  frames: number
-  startFrame: number
-
-  constructor (
-    frames: number,
-    startFrame: number
-  ) {
-    super()
-
-    this.frames = frames
-    this.startFrame = startFrame
-  }
-}
-
-export class Drop extends Component {}
-
-export class Grab extends Component {}
 
 export class Haul extends Component {
   player: Tile
@@ -69,32 +72,6 @@ export class Haul extends Component {
     this.player = player
     this.sack = sack
     this.direction = direction
-  }
-}
-
-export class State extends Component {
-  stage: StateType
-  startFrame: number
-  step: number
-
-  constructor (stage: StateType) {
-    super()
-
-    this.stage = stage
-    this.startFrame = 0
-    this.step = 0
-  }
-}
-
-export class Throw extends Component {
-  x: number
-  y: number
-
-  constructor (x: number, y: number) {
-    super()
-
-    this.x = x
-    this.y = y
   }
 }
 
@@ -117,5 +94,54 @@ export class Walk extends Component {
     this.isBlocked = false
     this.isValidated = false
     this.startFrame = 0
+  }
+}
+
+/* actions */
+
+export class Delay extends Component {
+  frames: number
+  startFrame: number
+
+  constructor (
+    frames: number,
+    startFrame: number
+  ) {
+    super()
+
+    this.frames = frames
+    this.startFrame = startFrame
+  }
+}
+
+export class Drop extends Component {}
+
+export class Grab extends Component {}
+
+export class Throw extends Component {
+  x: number
+  y: number
+
+  constructor (x: number, y: number) {
+    super()
+
+    this.x = x
+    this.y = y
+  }
+}
+
+/* other */
+
+export class State extends Component {
+  stage: StateType
+  startFrame: number
+  step: number
+
+  constructor (stage: StateType) {
+    super()
+
+    this.stage = stage
+    this.startFrame = 0
+    this.step = 0
   }
 }

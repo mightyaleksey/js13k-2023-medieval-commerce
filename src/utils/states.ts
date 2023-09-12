@@ -29,3 +29,13 @@ export const States = {
 } as const
 
 export type StateType = typeof States[keyof typeof States]
+
+export const GameStates = {
+  PrepareIntro: 0,
+  Intro: 1,
+  PrepareHelp: 2,
+  Help: 3,
+  Game: 4
+} as const
+
+export type GameStatesType = typeof GameStates[keyof typeof GameStates]

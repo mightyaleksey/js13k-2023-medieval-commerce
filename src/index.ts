@@ -1,11 +1,11 @@
 import { Player } from './entities/player'
 import { Provider } from './entities/provider'
-import { Sack } from './entities/sack'
 import { Surface } from './entities/surface'
 
 import { ControllerSystem } from './systems/controller-system'
 import { DelaySystem } from './systems/delay-system'
 import { DirectionSystem } from './systems/direction-system'
+import { GameSystem } from './systems/game-system'
 import { HaulSystem } from './systems/haul-system'
 import { LoggerSystem } from './systems/logger-system'
 import { RenderSystem } from './systems/render-system'
@@ -19,10 +19,10 @@ import game from './state/game'
 const fps = 48 // 21ms per frame
 
 const gameController = new GameController(
-  [Surface, Player, Provider, Sack],
+  [Surface, Player, Provider],
   [
     ControllerSystem, DelaySystem, DirectionSystem,
-    SupplySystem, TradeSystem,
+    GameSystem, SupplySystem, TradeSystem,
     HaulSystem, WalkSystem, RenderSystem,
     LoggerSystem
   ]
@@ -33,9 +33,7 @@ function animate (
   startTime = Date.now()
 ) {
   const currentTime = Date.now()
-  const elapsedFrames = game.isPaused
-    ? 0
-    : (currentTime - startTime) * fps / 1000
+  const elapsedFrames = (currentTime - startTime) * fps / 1000
   const result = fn(elapsedFrames) // wrap with try catch?
 
   if (result !== false) {
