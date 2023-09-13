@@ -11,7 +11,7 @@ class Game {
   constructor () {
     this.stage = GameStates.PrepareIntro
 
-    this.fame = 100
+    this.fame = 50
     this.silver = 0
   }
 }

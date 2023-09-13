@@ -17,6 +17,8 @@ export class GameSystem extends System {
   update () {
     switch (game.stage) {
       case GameStates.PrepareIntro: {
+        game.fame = 50
+        game.silver = 0
         game.stage = GameStates.Intro
 
         const menu = new Menu()
