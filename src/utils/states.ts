@@ -35,7 +35,9 @@ export const GameStates = {
   Intro: 1,
   PrepareHelp: 2,
   Help: 3,
-  Game: 4
+  Game: 4,
+  Defeat: 5,
+  Victory: 6
 } as const
 
 export type GameStatesType = typeof GameStates[keyof typeof GameStates]

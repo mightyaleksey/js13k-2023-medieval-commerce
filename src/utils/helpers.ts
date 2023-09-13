@@ -34,6 +34,18 @@ export function removeInstance (
   collection.splice(elemIndex, 1)
 }
 
+export function removeInstances (
+  collection: Array<Component | Entity>,
+  factory: typeof Component | typeof Entity
+) {
+  let length = collection.length
+  while (--length) {
+    if (isInstance(collection[length], factory)) {
+      collection.splice(length, 1)
+    }
+  }
+}
+
 export function difference <T> (
   left: T[],
   right: T[]

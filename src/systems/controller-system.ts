@@ -1,3 +1,5 @@
+import type { GameStatesType } from '@/utils/states'
+
 import { Delay, Drop, Grab, Haul, Tile, Walk } from '../components'
 import { Menu } from '@/entities/menu'
 import { Player } from '@/entities/player'
@@ -8,6 +10,16 @@ import { findInstance, removeInstance } from '@/utils/helpers'
 import { nullthrows } from '@/utils/validate'
 import controls from '@/state/controls'
 import game from '@/state/game'
+
+const menuStates: GameStatesType[] = [
+  GameStates.Intro,
+  GameStates.Help
+]
+
+const nextStates: {[key: number]: GameStatesType} = {
+  [GameStates.Intro]: GameStates.PrepareHelp,
+  [GameStates.Help]: GameStates.Game
+}
 
 // animate character movement
 // detect collisions
@@ -24,17 +36,12 @@ export class ControllerSystem extends System {
     const player = nullthrows(findInstance(this.entities!, Player))
     const tile = player.components[0] as Tile
 
-    if (
-      game.stage === GameStates.Intro ||
-      game.stage === GameStates.Help
-    ) {
+    if (menuStates.includes(game.stage)) {
       if (controls.isAction) {
         const delay = findInstance(player.components, Delay)
         if (delay != null) return
 
-        game.stage = game.stage === GameStates.Intro
-          ? GameStates.PrepareHelp
-          : GameStates.Game
+        game.stage = nextStates[game.stage]
 
         player.components.push(
           new Delay(10, totalFrames)
@@ -43,6 +50,11 @@ export class ControllerSystem extends System {
         const menu = nullthrows(findInstance(this.entities!, Menu))
         removeInstance(this.entities!, menu)
       }
+    }
+
+    if (game.stage === GameStates.PrepareIntro) {
+      tile.x = 8
+      tile.y = 8
     }
 
     if (game.stage === GameStates.Game) {

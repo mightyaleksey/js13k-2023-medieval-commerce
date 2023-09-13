@@ -5,14 +5,14 @@ import { System } from '@/utils/elements'
 
 import { Layers } from '@/utils/layers'
 import {
-  States,
+  GameStates, States,
   startX, startY,
   shoppingX, shoppingY0, shoppingY1,
   leavePath0, leavePath1
 } from '@/utils/states'
 import { Tiles } from '@/utils/tiles'
 import { invariant, nullthrows } from '@/utils/validate'
-import { findInstance, isInstance, removeInstance } from '@/utils/helpers'
+import { findInstance, isInstance, removeInstance, removeInstances } from '@/utils/helpers'
 import { getElapsedFrames } from '@/utils/collision'
 import game from '@/state/game'
 
@@ -195,6 +195,10 @@ export class TradeSystem extends System {
         }
       }
     })
+
+    if (game.stage === GameStates.PrepareIntro) {
+      removeInstances(this.entities!, NPC)
+    }
 
     if ( // add npc to the system
       (npcs.length === 0 &&

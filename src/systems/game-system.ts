@@ -1,8 +1,15 @@
 import { Header, Paragraph } from '../components'
 import { Menu } from '@/entities/menu'
-import { System } from '@/utils/elements'
+import { Entity, System } from '@/utils/elements'
 
 import { GameStates } from '@/utils/states'
+import {
+  introText,
+  headerText,
+  helpText,
+  defeatText,
+  victoryText
+} from '@/utils/texts'
 import game from '@/state/game'
 
 export class GameSystem extends System {
@@ -20,31 +27,28 @@ export class GameSystem extends System {
         game.fame = 50
         game.silver = 0
         game.stage = GameStates.Intro
-
-        const menu = new Menu()
-        menu.components.push(
-          new Header('Medieval Commerce'),
-          new Paragraph('f')
-        )
-        this.entities!.push(menu)
-
+        addMenu(this.entities!, introText)
         break
       }
 
       case GameStates.PrepareHelp: {
         game.stage = GameStates.Help
+        addMenu(this.entities!, helpText)
+        break
+      }
 
-        const menu = new Menu()
-        menu.components.push(
-          new Header('Medieval Commerce'),
-          new Paragraph([
-            'Controls:',
-            '',
-            '• ←/↑/→/↓ or a/w/d/s: move',
-            '• space/enter: pick or drop sack'
-          ].join('\n'))
-        )
-        this.entities!.push(menu)
+      case GameStates.Game: {
+        if (game.fame < 0) {
+          // defeat
+          game.stage = GameStates.Defeat
+          addMenu(this.entities!, defeatText)
+        }
+
+        if (game.silver === 300) {
+          // victory
+          game.stage = GameStates.Victory
+          addMenu(this.entities!, victoryText)
+        }
 
         break
       }
@@ -52,4 +56,11 @@ export class GameSystem extends System {
   }
 }
 
-// new Paragraph('Super test to render with multiple lines and paragraphs.\n\nAsdasd asdalskdj asdlkasd sdsdsd sdsdsd asdasda dddkfk kjkjl sdsdd.')
+function addMenu (entities: Entity[], text: string) {
+  const menu = new Menu()
+  menu.components.push(
+    new Header(headerText),
+    new Paragraph(text)
+  )
+  entities.push(menu)
+}

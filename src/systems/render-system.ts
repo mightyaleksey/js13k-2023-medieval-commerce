@@ -74,15 +74,21 @@ export class RenderSystem extends System {
 
     const fontSize = (
       (textStyle === 'b'
-        ? 1.6
+        ? 1.4
         : textStyle === 'm'
-          ? 0.6
+          ? 0.7
           : 0.6
       ) * tileWidth
     ) >> 0
 
-    ctx.fillStyle = textStyle === 'b' ? '#38d973' : '#e6e2da'
-    ctx.font = `${fontSize}px georgia`
+    ctx.fillStyle =
+      textStyle === 'b' ? '#38d973' : '#e6e2da'
+    ctx.font =
+      textStyle === 'b'
+        ? `bold ${fontSize}px georgia, serif`
+        : textStyle === 'm'
+          ? `small-caps ${fontSize}px helvetica, sans-serif`
+          : `${fontSize}px georgia, serif`
 
     if (width == null) {
       ctx.fillText(

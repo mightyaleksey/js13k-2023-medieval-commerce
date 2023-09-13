@@ -5,7 +5,7 @@ import { Direction, Grab, Haul, State, Tile, Throw, Walk } from '../components'
 
 import { GameStates, States } from '@/utils/states'
 import { Tiles } from '@/utils/tiles'
-import { findInstance } from '@/utils/helpers'
+import { findInstance, removeInstances } from '@/utils/helpers'
 import { getElapsedFrames, genObstacleMap, genObstacleKey } from '@/utils/collision'
 import { nullthrows } from '@/utils/validate'
 import game from '@/state/game'
@@ -28,23 +28,6 @@ export class SupplySystem extends System {
   }
 
   update (elapsedFrames: number, totalFrames: number) {
-    if (game.stage === GameStates.PrepareIntro) {
-      const saltSack = new Sack()
-      const saltSackTile = saltSack.components[0] as Tile
-      saltSackTile.x = 8
-      saltSackTile.y = 7
-
-      const grainSack = new Sack()
-      const grainSackTile = grainSack.components[0] as Tile
-      grainSackTile.x = 7
-      grainSackTile.y = 7
-      grainSackTile.tileID = Tiles.I_SACK_GRAIN
-
-      this.entities!.push(
-        saltSack, grainSack
-      )
-    }
-
     const provider = nullthrows(
       findInstance(this.entities!, Provider)
     )
@@ -52,6 +35,28 @@ export class SupplySystem extends System {
     const tile = provider.components[0] as Tile
     const direction = provider.components[1] as Direction
     const state = provider.components[2] as State
+
+    if (game.stage === GameStates.PrepareIntro) {
+      state.stage = States.Idle
+      tile.x = -2
+      tile.y = 9
+      removeInstances(this.entities!, Sack)
+
+      ;[
+        [8, 7, Tiles.I_SACK_SALT],
+        [7, 7, Tiles.I_SACK_SALT],
+        [6, 7, Tiles.I_SACK_GRAIN],
+        [5, 7, Tiles.I_SACK_GRAIN]
+      ].forEach(([x, y, tileID]) => {
+        const sack = new Sack()
+        const sackTile = sack.components[0] as Tile
+        sackTile.x = x
+        sackTile.y = y
+        // @ts-ignore
+        sackTile.tileID = tileID
+        this.entities!.push(sack)
+      })
+    }
 
     const walk = findInstance(provider.components, Walk)
 
