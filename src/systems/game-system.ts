@@ -44,7 +44,7 @@ export class GameSystem extends System {
           addMenu(this.entities!, defeatText)
         }
 
-        if (game.silver === 300) {
+        if (game.silver === 200) {
           // victory
           game.stage = GameStates.Victory
           addMenu(this.entities!, victoryText)

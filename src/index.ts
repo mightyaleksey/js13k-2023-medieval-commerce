@@ -7,7 +7,7 @@ import { DelaySystem } from './systems/delay-system'
 import { DirectionSystem } from './systems/direction-system'
 import { GameSystem } from './systems/game-system'
 import { HaulSystem } from './systems/haul-system'
-import { LoggerSystem } from './systems/logger-system'
+// import { LoggerSystem } from './systems/logger-system'
 import { RenderSystem } from './systems/render-system'
 import { SupplySystem } from './systems/supply-system'
 import { TradeSystem } from './systems/trade-system'
@@ -27,8 +27,8 @@ const gameController = new GameController(
     ControllerSystem, DelaySystem, DirectionSystem,
     SupplySystem, TradeSystem,
     HaulSystem, WalkSystem, RenderSystem,
-    GameSystem, // game should be last one
-    LoggerSystem
+    GameSystem // game should be last one
+    // LoggerSystem
   ]
 )
 

@@ -1,6 +1,6 @@
 export const headerText = 'Medieval Commerce'
 
-export const introText = 'welcome to veliky novgorod in 1260. you play as a trader who tries to earn enough money to pay back to Mongol tax-collectors by selling salt and grain. your goal is to earn 300 silver for the upcoming round to satisfy mongols. good luck.'
+export const introText = 'welcome to veliky novgorod in 1260. you play as a trader who tries to earn enough money to pay back to Mongol tax-collectors by selling salt and grain. your goal is to earn 200 silver for the upcoming round to satisfy mongols. good luck.'
 
 export const helpText = [
   'controls:',
