@@ -101,6 +101,9 @@ export class Surface extends Entity {
       new Tile(15, 1, Layers.ObjectsBelow, Tiles.E_TREE_BIRCH),
       new Tile(15, 6, Layers.ObjectsBelow, Tiles.E_TREE_BIRCH),
       new Tile(17, 1, Layers.ObjectsBelow, Tiles.E_TREE_FIR),
+      new Tile(16, 8, Layers.ObjectsBelow, Tiles.E_TREE_FIR),
+      new Tile(14, 10, Layers.ObjectsBelow, Tiles.E_TREE_FIR),
+      new Tile(15, 11, Layers.ObjectsBelow, Tiles.E_TREE_FIR),
       // wooden walls
       new Tile(2, 0, Layers.ObjectsBelow, Tiles.E_WOODEN_WALL),
       new Tile(3, 0, Layers.ObjectsBelow, Tiles.E_WOODEN_WALL),
