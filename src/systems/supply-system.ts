@@ -3,11 +3,12 @@ import { Sack } from '@/entities/sack'
 import { System } from '@/utils/elements'
 import { Direction, Grab, Haul, State, Tile, Throw, Walk } from '../components'
 
-import { States } from '@/utils/states'
+import { GameStates, States } from '@/utils/states'
 import { Tiles } from '@/utils/tiles'
 import { findInstance } from '@/utils/helpers'
 import { getElapsedFrames, genObstacleMap, genObstacleKey } from '@/utils/collision'
 import { nullthrows } from '@/utils/validate'
+import game from '@/state/game'
 
 const waitBeforeStart = 10
 const tilesToGenerate = [
@@ -27,6 +28,23 @@ export class SupplySystem extends System {
   }
 
   update (elapsedFrames: number, totalFrames: number) {
+    if (game.stage === GameStates.PrepareIntro) {
+      const saltSack = new Sack()
+      const saltSackTile = saltSack.components[0] as Tile
+      saltSackTile.x = 8
+      saltSackTile.y = 7
+
+      const grainSack = new Sack()
+      const grainSackTile = grainSack.components[0] as Tile
+      grainSackTile.x = 7
+      grainSackTile.y = 7
+      grainSackTile.tileID = Tiles.I_SACK_GRAIN
+
+      this.entities!.push(
+        saltSack, grainSack
+      )
+    }
+
     const provider = nullthrows(
       findInstance(this.entities!, Provider)
     )

@@ -16,14 +16,18 @@ import { WalkSystem } from './systems/walk-system'
 import { GameController } from './utils/game-controller'
 import game from './state/game'
 
+// @ts-ignore
+if (typeof window === 'object') window.game = game
+
 const fps = 48 // 21ms per frame
 
 const gameController = new GameController(
   [Surface, Player, Provider],
   [
     ControllerSystem, DelaySystem, DirectionSystem,
-    GameSystem, SupplySystem, TradeSystem,
+    SupplySystem, TradeSystem,
     HaulSystem, WalkSystem, RenderSystem,
+    GameSystem, // game should be last one
     LoggerSystem
   ]
 )
