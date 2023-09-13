@@ -46,22 +46,17 @@ export class ControllerSystem extends System {
     }
 
     if (game.stage === GameStates.Game) {
-      const isMoving =
-        controls.isDown ||
-        controls.isLeft ||
-        controls.isRight ||
-        controls.isUp
-      const walk =
-        findInstance(player.components, Walk)
+      if (controls.isEscape) {
+        const delay = findInstance(player.components, Delay)
+        if (delay == null) {
+          game.stage = GameStates.PrepareHelp
 
-      if (isMoving && walk == null) {
-        const x = tile.x + (controls.isLeft ? -1 : controls.isRight ? 1 : 0)
-        const y = tile.y + (controls.isUp ? -1 : controls.isDown ? 1 : 0)
+          player.components.push(
+            new Delay(10, totalFrames)
+          )
 
-        // create Walk component with the destination
-        player.components.push(
-          new Walk(x, y, tile)
-        )
+          return
+        }
       }
 
       if (controls.isAction) {
@@ -79,6 +74,24 @@ export class ControllerSystem extends System {
             )
           }
         }
+      }
+
+      const isMoving =
+        controls.isDown ||
+        controls.isLeft ||
+        controls.isRight ||
+        controls.isUp
+      const walk =
+        findInstance(player.components, Walk)
+
+      if (isMoving && walk == null) {
+        const x = tile.x + (controls.isLeft ? -1 : controls.isRight ? 1 : 0)
+        const y = tile.y + (controls.isUp ? -1 : controls.isDown ? 1 : 0)
+
+        // create Walk component with the destination
+        player.components.push(
+          new Walk(x, y, tile)
+        )
       }
     }
   }

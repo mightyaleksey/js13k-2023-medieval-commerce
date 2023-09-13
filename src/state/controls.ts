@@ -15,7 +15,9 @@ const keyMap = {
   w: 'isUp',
 
   Enter: 'isAction',
-  ' ': 'isAction'
+  ' ': 'isAction',
+
+  Escape: 'isEscape'
 }
 
 class Controls {
@@ -24,6 +26,7 @@ class Controls {
   isLeft: boolean
   isRight: boolean
   isAction: boolean
+  isEscape: boolean
 
   constructor () {
     this.isDown = false
@@ -31,6 +34,7 @@ class Controls {
     this.isLeft = false
     this.isRight = false
     this.isAction = false
+    this.isEscape = false
 
     document.addEventListener('keydown', (event: KeyboardEvent) => {
       this._setKey(event, event.key, true)
