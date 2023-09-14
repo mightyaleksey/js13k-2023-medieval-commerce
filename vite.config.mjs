@@ -23,9 +23,12 @@ export default defineConfig(({ command, mode }) => {
     },
     optimizeDeps: {
       esbuildOptions: {
+        // esbuild babel does not support flow enums :(
+        // switching to hermes target results in errors with "const"
         plugins: [esbuildBabel({ filter: /\.js$/ })]
       }
     },
+    esbuild: false,
     plugins: [rollupBabel({ babelHelpers: 'bundled' })]
   }
 

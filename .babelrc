@@ -1,5 +1,10 @@
 {
   "plugins": [
+    ["babel-plugin-module-resolver", {
+      "alias": {
+        "@": "./src"
+      }
+    }],
     "transform-flow-strip-types"
   ]
 }

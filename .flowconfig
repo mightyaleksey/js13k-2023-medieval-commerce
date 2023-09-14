@@ -9,6 +9,8 @@
 [lints]
 
 [options]
+enums=true
 module.name_mapper='^@' -> '<PROJECT_ROOT>/src'
+server.max_workers=2
 
 [strict]
