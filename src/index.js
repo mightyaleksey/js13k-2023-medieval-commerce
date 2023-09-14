@@ -1,6 +1,19 @@
-/* flow */
+/* @flow */
+import { RenderSystem } from './systems/render-system'
+import { WalkSystem } from './systems/walk-system'
 
-const fps = 48 // 21ms per frame
+import { GameController } from './utils/game-controller'
+
+const gameController = new GameController(
+  [RenderSystem, WalkSystem]
+)
+
+function gameLoop (elapsedFrames: number) {
+  gameController.update(elapsedFrames)
+}
+
+// 21ms per frame
+const fps = 48
 
 function animate (
   fn: number => mixed,
@@ -15,10 +28,6 @@ function animate (
       animate(fn, currentTime)
     })
   }
-}
-
-function gameLoop (elapsedFrames: number) {
-  // gameController.update(elapsedFrames)
 }
 
 animate(gameLoop)
