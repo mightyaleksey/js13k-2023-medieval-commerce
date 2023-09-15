@@ -1,11 +1,9 @@
-import { babel as rollupBabel } from '@rollup/plugin-babel'
-import { defineConfig } from 'vite'
 import { Packer } from 'roadroller'
+import { defineConfig } from 'vite'
 import CleanCSS from 'clean-css'
 import ect from 'ect-bin'
-import esbuildBabel from 'esbuild-plugin-babel'
 import htmlMinify from 'html-minifier'
-
+import { flowPlugin, esbuildFlowPlugin } from '@bunchtogether/vite-plugin-flow'
 import { execFileSync } from 'child_process'
 import { statSync } from 'fs'
 import fs from 'fs/promises'
@@ -25,11 +23,11 @@ export default defineConfig(({ command, mode }) => {
       esbuildOptions: {
         // esbuild babel does not support flow enums :(
         // switching to hermes target results in errors with "const"
-        plugins: [esbuildBabel({ filter: /\.js$/ })]
+        plugins: [esbuildFlowPlugin(/\.js$/)]
       }
     },
     esbuild: false,
-    plugins: [rollupBabel({ babelHelpers: 'bundled' })]
+    plugins: [flowPlugin()]
   }
 
   if (command === 'build') {
@@ -53,7 +51,7 @@ export default defineConfig(({ command, mode }) => {
       }
     }
     // @ts-ignore
-    config.plugins = [rollupBabel({ babelHelpers: 'bundled' }), roadrollerPlugin(), ectPlugin()]
+    config.plugins = [flowPlugin(), roadrollerPlugin(), ectPlugin()]
   }
 
   return config
