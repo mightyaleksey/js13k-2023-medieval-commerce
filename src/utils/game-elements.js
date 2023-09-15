@@ -2,7 +2,9 @@
 
 export class Component {}
 
-export class Entity {}
+export class Entity {
+  components: any
+}
 
 export class System <C: ?Component, E: ?Entity> {
   _requiredComponents: Array<Class<C>>

@@ -1,11 +1,14 @@
 /* @flow */
+import { DirectionSystem } from './systems/direction-system'
 import { RenderSystem } from './systems/render-system'
 import { WalkSystem } from './systems/walk-system'
+import { World } from './entities/world'
 
 import { GameController } from './utils/game-controller'
 
 const gameController = new GameController(
-  [RenderSystem, WalkSystem]
+  [RenderSystem, WalkSystem, DirectionSystem],
+  [World]
 )
 
 function gameLoop (elapsedFrames: number) {
