@@ -1,5 +1,7 @@
 /* @flow */
-import { DirectionSystem } from './systems/direction-system'
+import { GameSystem } from './systems/game-system'
+import { LoggerSystem } from './systems/logger-system'
+import { PlayerSystem } from './systems/player-system'
 import { RenderSystem } from './systems/render-system'
 import { WalkSystem } from './systems/walk-system'
 import { World } from './entities/world'
@@ -7,7 +9,9 @@ import { World } from './entities/world'
 import { GameController } from './utils/game-controller'
 
 const gameController = new GameController(
-  [RenderSystem, WalkSystem, DirectionSystem],
+  [RenderSystem, WalkSystem,
+    GameSystem, PlayerSystem,
+    LoggerSystem],
   [World]
 )
 

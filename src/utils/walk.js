@@ -5,6 +5,10 @@ import { Tile, Walk } from '../components'
 import { gameMapWidth, gameMapHeight, isObstacle } from './tiles'
 import { isInstanceOf } from './helpers'
 
+// maps angle to coordinate offset
+export const offsetX = [0, 1, 0, -1]
+export const offsetY = [-1, 0, 1, 0]
+
 export function getAngle (
   destination: Tile | Walk,
   start: Tile | Walk
@@ -15,6 +19,17 @@ export function getAngle (
   if (dy > 0) return 2
   if (dx < 0) return 3
   return 0
+}
+
+// frame range [0, 1000], after 1000 it is reset to 0
+// expected delta (output) range [0, 20]
+export function getDeltaFrames (
+  currentFrame: number,
+  startFrame: number
+): number {
+  const delta = currentFrame - startFrame
+  if (delta < 0) return delta + 1000
+  return delta
 }
 
 /**

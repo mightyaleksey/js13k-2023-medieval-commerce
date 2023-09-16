@@ -8,6 +8,13 @@ export function isInstanceOf<T> (
   return instance instanceof factory
 }
 
+export function difference <T> (
+  left: T[],
+  right: T[]
+): T[] {
+  return left.filter(leftElem => !right.includes(leftElem))
+}
+
 export function iterate (
   start: number,
   end: number | (number => void),

@@ -42,7 +42,9 @@
       "ThisParameterType",
       "CanvasRenderingContext2D",
       "HTMLCanvasElement",
-      "HTMLImageElement"
+      "HTMLImageElement",
+      "HTMLPreElement",
+      "KeyboardEvent"
     ],
     "parser": "hermes-eslint",
     "plugins": [

@@ -12,5 +12,10 @@ export class System <C: ?Component, E: ?Entity> {
   _requiredEntities: Array<Class<E>>
   entities: Array<E>
 
+  constructor () {
+    this.components = []
+    this.entities = []
+  }
+
   update (elapsedFrames: number, totalFrames: number) {}
 }

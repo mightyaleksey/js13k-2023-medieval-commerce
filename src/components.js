@@ -4,10 +4,10 @@ import type { LayersType, TilesType } from '@/utils/tiles'
 import { Component } from './utils/game-elements'
 
 export class Tile extends Component {
-  x: number
-  y: number
   layer: LayersType
   tileID: TilesType
+  x: number
+  y: number
 
   constructor (
     x: number,
@@ -33,6 +33,10 @@ export class Direction extends Component {
 }
 
 export class Walk extends Component {
+  isBlocked: boolean
+  isVerified: boolean
+  speed: number
+  startFrame: number
   x: number
   y: number
 
@@ -41,6 +45,10 @@ export class Walk extends Component {
     y: number
   ) {
     super()
+    this.isBlocked = false
+    this.isVerified = false
+    this.speed = 0.05
+    this.startFrame = 0
     this.x = x
     this.y = y
   }
