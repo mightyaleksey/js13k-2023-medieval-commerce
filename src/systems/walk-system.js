@@ -31,7 +31,7 @@ export class WalkSystem extends System<Tile, Character> {
       if (!walk.isActive) return
 
       if (!walk.isVerified) {
-        walk.isBlocked = obstacleMap[genObstacleKey(walk)] === 1
+        walk.isBlocked = obstacleMap[genObstacleKey(walk.x, walk.y)] === 1
         walk.isVerified = true
         walk.startFrame = totalFrames
       }

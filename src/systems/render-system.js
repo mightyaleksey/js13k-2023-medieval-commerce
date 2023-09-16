@@ -4,7 +4,11 @@ import type { TilesDataType } from '@/utils/tiles'
 import { System } from '@/utils/game-elements'
 import { Tile } from '../components'
 
-import { bgColor, gameMapWidth, gameMapHeight, genTileData } from '@/utils/tiles'
+import {
+  bgColor,
+  gameMapWidth, gameMapHeight,
+  compareTiles, genTileData
+} from '@/utils/tiles'
 import { invariant } from '@/utils/guard'
 
 const borderWidth = 2
@@ -66,12 +70,7 @@ export class RenderSystem extends System<Tile, void> {
     )
 
     this.components
-      .sort((a, b) =>
-        a.layer !== b.layer
-          // $FlowFixMe[unsafe-arithmetic] opaque type usage
-          ? a.layer - b.layer
-          : a.y - b.y
-      )
+      .sort(compareTiles)
       .forEach(tile => {
         const offsetX = borderLeft + clientTileWidth * tile.x
         const offsetY = borderTop + clientTileWidth * tile.y

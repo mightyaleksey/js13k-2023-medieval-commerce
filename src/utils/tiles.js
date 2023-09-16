@@ -10,16 +10,16 @@ export const gameTileWidth = 16
 
 export opaque type LayersType = number
 export type LayersKeyType =
-  | 'Surface'
-  | 'ObjectSmall'
   | 'Object'
+  | 'ObjectSmall'
   | 'Sky'
+  | 'Surface'
 
 export const Layers: {[LayersKeyType]: LayersType} = {
   Surface: 1,
   ObjectSmall: 2,
   Object: 4,
-  Sky: 7
+  Sky: 9
 }
 
 export function isObstacle (tile: Tile): boolean {
@@ -148,4 +148,25 @@ export function genTileData (
 
   const tilesData: TilesDataType = {}
   return tilesData
+}
+
+function isCharacter (tile: Tile): boolean {
+  return ( // todo replace with instanceof
+    tile.tileID === Tiles.CHARACTER_00 ||
+    tile.tileID === Tiles.CHARACTER_10 ||
+    tile.tileID === Tiles.CHARACTER_20 ||
+    tile.tileID === Tiles.CHARACTER_30
+  )
+}
+
+export function compareTiles (
+  left: Tile,
+  right: Tile
+): number {
+  if (left.layer !== right.layer) return left.layer - right.layer
+  if (left.x !== right.x) {
+    if (isCharacter(left)) return -1
+    if (isCharacter(right)) return 1
+  }
+  return left.y - right.y
 }

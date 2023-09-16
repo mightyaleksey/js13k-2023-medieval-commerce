@@ -50,10 +50,9 @@ export function getDeltaFrames (
  */
 
 export function genObstacleKey (
-  component: Tile | Walk
+  x: number,
+  y: number
 ): number {
-  const x = Math.round(component.x)
-  const y = Math.round(component.y)
   return (2 + x) + (2 + y) * (4 + gameMapWidth)
 }
 
@@ -66,11 +65,15 @@ export function genObstacleMap (
   return components.reduce(
     (map, component) => {
       if (
-        (isInstanceOf(component, Tile) &&
-          isObstacle(component)) ||
-        isInstanceOf(component, Walk)
+        isInstanceOf(component, Tile) &&
+        isObstacle(component)
       ) {
-        map[genObstacleKey(component)] = 1
+        map[
+          genObstacleKey(
+            Math.round(component.x),
+            Math.round(component.y)
+          )
+        ] = 1
       }
 
       return map
