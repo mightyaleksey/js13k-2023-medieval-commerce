@@ -10,10 +10,12 @@ export const gameTileWidth = 16
 
 export const Layers: {
   Surface: 1,
-  Objects: 4
+  Objects: 4,
+  Sky: 7
 } = {
   Surface: 1,
-  Objects: 4
+  Objects: 4,
+  Sky: 7
 }
 
 export type LayersType = $Values<typeof Layers>
@@ -32,7 +34,7 @@ export const Tiles: {
 
   CHARACTER_00: 6,
   CHARACTER_10: 7,
-  STORE_TOWER_10: 8,
+  STONE_TOWER_10: 8,
   BRIDGE_00: 9,
   STONE_ENTRANCE_10: 10,
   TREE_BIRCH_00: 11,
@@ -67,7 +69,7 @@ export const Tiles: {
 
   CHARACTER_00: 6,
   CHARACTER_10: 7,
-  STORE_TOWER_10: 8,
+  STONE_TOWER_10: 8,
   BRIDGE_00: 9,
   STONE_ENTRANCE_10: 10,
   TREE_BIRCH_00: 11,

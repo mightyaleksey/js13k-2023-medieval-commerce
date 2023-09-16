@@ -66,9 +66,11 @@ export class RenderSystem extends System<Tile, void> {
     )
 
     this.components
-      .sort((a, b) => a.layer !== b.layer
-        ? a.layer - b.layer
-        : a.y - b.y)
+      .sort((a, b) =>
+        a.layer !== b.layer
+          ? a.layer - b.layer
+          : a.y - b.y
+      )
       .forEach(tile => {
         const offsetX = borderLeft + clientTileWidth * tile.x
         const offsetY = borderTop + clientTileWidth * tile.y
