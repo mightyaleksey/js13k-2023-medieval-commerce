@@ -1,24 +1,22 @@
 /* @flow */
 import { Entity } from '@/utils/game-elements'
-import { Direction, Tile, Walk } from '../components'
+import { Action, Direction, Haul, Tile, Walk } from '../components'
 
 import { Layers, Tiles } from '@/utils/tiles'
 
 export class Character extends Entity {
-  /* eslint-disable no-undef */
-  components: [
-    tile: Tile,
-    direction: Direction,
-    walk?: Walk
-  ]
-  /* eslint-enable no-undef */
+  components: [Tile, Direction, Walk, Haul, Action]
 
   constructor () {
     super()
-
     this.components = [
       new Tile(8, 8, Layers.Objects, Tiles.CHARACTER_00),
-      new Direction()
+      new Direction(),
+      new Walk(),
+      new Haul(),
+      new Action()
     ]
   }
 }
+
+export class Player extends Character {}

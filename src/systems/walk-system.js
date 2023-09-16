@@ -27,8 +27,8 @@ export class WalkSystem extends System<Tile, Character> {
     // 2. moves characters through the tiles towards walk coordinates
     // 3. remove walk component
     this.entities.forEach(character => {
-      const walk = character.components[2]
-      if (walk == null) return
+      const [tile, direction, walk] = character.components
+      if (!walk.isActive) return
 
       if (!walk.isVerified) {
         walk.isBlocked = obstacleMap[genObstacleKey(walk)] === 1
@@ -36,8 +36,7 @@ export class WalkSystem extends System<Tile, Character> {
         walk.startFrame = totalFrames
       }
 
-      const tile = character.components[0]
-      const angle = character.components[1].angle = getAngle(walk, tile)
+      const angle = direction.angle = getAngle(walk, tile)
       const walkDelta = walk.speed * elapsedFrames
 
       if (
@@ -74,8 +73,7 @@ export class WalkSystem extends System<Tile, Character> {
         (walk.isBlocked && (dz === 0 || dz === 1 || dz === 2))
 
       if (isDestinationReached) {
-        // $FlowIgnore[prop-missing]
-        character.components.pop()
+        walk.isActive = false
       }
     })
   }

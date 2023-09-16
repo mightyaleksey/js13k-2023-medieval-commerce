@@ -1,6 +1,7 @@
 /* @flow */
 import type { LayersType, TilesType } from '@/utils/tiles'
 
+import { Actions } from './utils/walk'
 import { Component } from './utils/game-elements'
 
 export class Tile extends Component {
@@ -33,6 +34,7 @@ export class Direction extends Component {
 }
 
 export class Walk extends Component {
+  isActive: boolean
   isBlocked: boolean
   isVerified: boolean
   speed: number
@@ -40,16 +42,32 @@ export class Walk extends Component {
   x: number
   y: number
 
-  constructor (
-    x: number,
-    y: number
-  ) {
+  constructor () {
     super()
+    this.isActive = false
     this.isBlocked = false
     this.isVerified = false
     this.speed = 0.05
     this.startFrame = 0
-    this.x = x
-    this.y = y
+    this.x = 0
+    this.y = 0
+  }
+}
+
+export class Haul extends Component {
+  tile: ?Tile
+
+  constructor () {
+    super()
+    this.tile = null
+  }
+}
+
+export class Action extends Component {
+  type: number
+
+  constructor () {
+    super()
+    this.type = Actions.Idle
   }
 }

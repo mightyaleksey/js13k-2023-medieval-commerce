@@ -1,32 +1,36 @@
 /* @flow */
-import { Character } from '@/entities/character'
+import { Player } from '@/entities/character'
 import { System } from '@/utils/game-elements'
-import { Walk } from '../components'
 
+import { Actions } from '@/utils/walk'
 import controls from '@/state/controls'
 
-export class PlayerSystem extends System<void, Character> {
+export class PlayerSystem extends System<void, Player> {
   constructor () {
     super()
-    this._requiredEntities = [Character]
+    this._requiredEntities = [Player]
   }
 
   update () {
-    const player = this.entities[0]
-    // console.log(player.components)
+    const [tile, , walk, , action] = this.entities[0].components
+
     const isMoving =
       controls.isDown ||
       controls.isLeft ||
       controls.isRight ||
       controls.isUp
-    const walk =
-      player.components[2]
 
-    if (isMoving && walk == null) {
-      const tile = player.components[0]
-      const x = tile.x + (controls.isLeft ? -1 : controls.isRight ? 1 : 0)
-      const y = tile.y + (controls.isUp ? -1 : controls.isDown ? 1 : 0)
-      player.components[2] = new Walk(x, y)
+    if (isMoving && !walk.isActive) {
+      walk.isActive = true
+      walk.isBlocked = false
+      walk.isVerified = false
+
+      walk.x = tile.x + (controls.isLeft ? -1 : controls.isRight ? 1 : 0)
+      walk.y = tile.y + (controls.isUp ? -1 : controls.isDown ? 1 : 0)
+    }
+
+    if (controls.isAction) {
+      action.type = Actions.Grab
     }
   }
 }
