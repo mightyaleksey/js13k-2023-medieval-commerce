@@ -10,10 +10,17 @@ import { GameController } from './utils/game-controller'
 
 const gameController = new GameController(
   [RenderSystem, WalkSystem,
-    GameSystem, PlayerSystem,
-    LoggerSystem],
+    GameSystem, PlayerSystem],
   [World]
 )
+
+// env variables https://vitejs.dev/guide/env-and-mode.html#env-variables-and-modes
+// $FlowIgnore[incompatible-type] DEV is a value defined by vite
+if (import.meta.env.DEV) {
+  // add logger for the dev environment
+  // $FlowIgnore[prop-missing] _systems is read only array
+  gameController._systems.push(new LoggerSystem())
+}
 
 function gameLoop (elapsedFrames: number) {
   gameController.update(elapsedFrames)
