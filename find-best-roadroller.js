@@ -1,6 +1,7 @@
 const { exec } = require('node:child_process')
 const readline = require('readline')
 const fs = require('fs')
+const path = require('path')
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -22,7 +23,8 @@ rl.question('How many seconds should RoadRoller spend looking for the best confi
   console.log('Building...')
   exec('vite build', () => {
     console.log(`Spending ${seconds} seconds searching for config...`)
-    exec(`node node_modules/roadroller/cli.mjs ${__dirname}/dist/output.js -D -OO`, { timeout: seconds * 1000, killSignal: 'SIGINT', maxBuffer: 4069 * 1024 }, (error, stdout, stderr) => {
+    // eslint-disable-next-line n/handle-callback-err
+    exec(`node node_modules/roadroller/cli.mjs ${path.join(__dirname, 'dist/output.js')} -D -OO`, { timeout: seconds * 1000, killSignal: 'SIGINT', maxBuffer: 4069 * 1024 }, (error, stdout, stderr) => {
       const bestConfigJs = { allowFreeVars: true }
       const bestConfigConsole = stderr.split('\n').reverse().find(line => line.includes('<-'))
       const itemCheckRemoved = bestConfigConsole.split(') ')[1]
@@ -35,7 +37,10 @@ rl.question('How many seconds should RoadRoller spend looking for the best confi
           }
         })
       })
-      fs.writeFileSync(`${__dirname}/roadroller-config.json`, JSON.stringify(bestConfigJs, null, 2))
+      fs.writeFileSync(
+        path.join(__dirname, 'roadroller-config.json'),
+        JSON.stringify(bestConfigJs, null, 2)
+      )
       console.log(`BEST CONFIG: ${bestConfigConsole}`)
       process.exit(0)
     })
