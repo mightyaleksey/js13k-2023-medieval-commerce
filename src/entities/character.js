@@ -10,7 +10,7 @@ export class Character extends Entity {
   constructor () {
     super()
     this.components = [
-      new Tile(8, 8, Layers.Objects, Tiles.CHARACTER_00),
+      new Tile(8, 8, Layers.Object, Tiles.CHARACTER_00),
       new Direction(),
       new Walk(),
       new Haul(),

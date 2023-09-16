@@ -68,6 +68,7 @@ export class RenderSystem extends System<Tile, void> {
     this.components
       .sort((a, b) =>
         a.layer !== b.layer
+          // $FlowFixMe[unsafe-arithmetic] opaque type usage
           ? a.layer - b.layer
           : a.y - b.y
       )

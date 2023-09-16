@@ -10,7 +10,7 @@ export class Sack extends Entity {
   constructor () {
     super()
     this.components = [
-      new Tile(8, 9, Layers.Objects, Tiles.SACK_SALT_00)
+      new Tile(8, 9, Layers.Object, Tiles.SACK_SALT_00)
     ]
   }
 }

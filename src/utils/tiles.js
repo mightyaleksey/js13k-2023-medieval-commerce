@@ -8,58 +8,60 @@ export const gameMapWidth = 18
 export const gameMapHeight = 14
 export const gameTileWidth = 16
 
-export const Layers: {
+export opaque type LayersType = number
+export type LayersKeyType =
+  | 'Surface'
+  | 'ObjectSmall'
+  | 'Object'
+  | 'Sky'
+
+export const Layers: {[LayersKeyType]: LayersType} = {
   Surface: 1,
-  Objects: 4,
-  Sky: 7
-} = {
-  Surface: 1,
-  Objects: 4,
+  ObjectSmall: 2,
+  Object: 4,
   Sky: 7
 }
-
-export type LayersType = $Values<typeof Layers>
 
 export function isObstacle (tile: Tile): boolean {
   return tile.layer % 2 === 0
 }
 
-export const Tiles: {
-  WATER_SHORE_00: 0,
-  WATER_SHORE_02: 2000,
-  WATER_DEPTH_00: 1,
-  STONE_ENTRANCE_20: 2,
-  TREE_FIR_00: 3,
-  BG_00: 4,
+export opaque type TilesType = number
+export type TilesKeyType =
+  | 'WATER_SHORE_00'
+  | 'WATER_SHORE_02'
+  | 'WATER_DEPTH_00'
+  | 'STONE_ENTRANCE_20'
+  | 'TREE_FIR_00'
+  | 'BG_00'
+  | 'CHARACTER_00'
+  | 'CHARACTER_10'
+  | 'STONE_TOWER_10'
+  | 'BRIDGE_00'
+  | 'STONE_ENTRANCE_10'
+  | 'TREE_BIRCH_00'
+  | 'CHARACTER_20'
+  | 'CHARACTER_30'
+  | 'STONE_TOWER_00'
+  | 'STONE_WALL_00'
+  | 'STONE_ENTRANCE_00'
+  | 'WOODEN_ROOF_H0'
+  | 'TABLE_10'
+  | 'WOODEN_DOOR_L0'
+  | 'SACK_GRAIN_00'
+  | 'SACK_SALT_00'
+  | 'ROAD_00'
+  | 'ROAD_01'
+  | 'ROAD_02'
+  | 'ROAD_03'
+  | 'ROAD_CROSS_00'
+  | 'ROAD_CROSS_01'
+  | 'WOODEN_WALL_00'
+  | 'WOODEN_ROOF_V0'
+  | 'TABLE_00'
+  | 'WOODEN_DOOR_R0'
 
-  CHARACTER_00: 6,
-  CHARACTER_10: 7,
-  STONE_TOWER_10: 8,
-  BRIDGE_00: 9,
-  STONE_ENTRANCE_10: 10,
-  TREE_BIRCH_00: 11,
-
-  CHARACTER_20: 14,
-  CHARACTER_30: 15,
-  STONE_TOWER_00: 16,
-  STONE_WALL_00: 17,
-  STONE_ENTRANCE_00: 18,
-  WOODEN_ROOF_H0: 19,
-  TABLE_10: 20,
-  WOODEN_DOOR_L0: 21,
-  SACK_GRAIN_00: 22,
-  SACK_SALT_00: 23,
-  ROAD_00: 24,
-  ROAD_01: 1024,
-  ROAD_02: 2024,
-  ROAD_03: 3024,
-  ROAD_CROSS_00: 3025,
-  ROAD_CROSS_01: 25,
-  WOODEN_WALL_00: 26,
-  WOODEN_ROOF_V0: 27,
-  TABLE_00: 28,
-  WOODEN_DOOR_R0: 29
-} = {
+export const Tiles: {[TilesKeyType]: TilesType} = {
   WATER_SHORE_00: 0,
   WATER_SHORE_02: 2000,
   WATER_DEPTH_00: 1,
@@ -95,8 +97,6 @@ export const Tiles: {
   TABLE_00: 28,
   WOODEN_DOOR_R0: 29
 }
-
-export type TilesType = $Values<typeof Tiles>
 
 export type TilesDataType = {
   [TilesType]: HTMLImageElement
