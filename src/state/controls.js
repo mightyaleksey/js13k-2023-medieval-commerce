@@ -1,57 +1,78 @@
 /* @flow */
-const keyMap = {
-  ArrowDown: 'isDown',
-  ArrowLeft: 'isLeft',
-  ArrowRight: 'isRight',
-  ArrowUp: 'isUp',
+type ActionType =
+  | 'isUp'
+  | 'isLeft'
+  | 'isDown'
+  | 'isRight'
+  | 'isAction'
+  | 'isEscape'
 
-  ы: 'isDown',
-  ф: 'isLeft',
-  в: 'isRight',
-  ц: 'isUp',
+const actions: $ReadOnlyArray<ActionType> = [
+  'isUp',
+  'isLeft',
+  'isDown',
+  'isRight',
+  'isAction',
+  'isEscape'
+]
 
-  s: 'isDown',
-  a: 'isLeft',
-  d: 'isRight',
-  w: 'isUp',
-
-  Enter: 'isAction',
-  ' ': 'isAction',
-
-  Escape: 'isEscape'
-}
+const keys = [
+  ['ArrowUp', 'w', 'ц'],
+  ['ArrowLeft', 'a', 'ф'],
+  ['ArrowDown', 's', 'ы'],
+  ['ArrowRight', 'd', 'в'],
+  ['Enter', ' '],
+  ['Escape']
+]
 
 class Controls {
-  isDown: boolean
   isUp: boolean
   isLeft: boolean
+  isDown: boolean
   isRight: boolean
   isAction: boolean
   isEscape: boolean
 
+  keyMap: {
+    [string]: ActionType
+  }
+
+  keyQ: {
+    [ActionType]: boolean
+  }
+
   constructor () {
-    this.isDown = false
-    this.isUp = false
-    this.isLeft = false
-    this.isRight = false
-    this.isAction = false
-    this.isEscape = false
+    this.keyMap = actions.reduce(
+      (m: {[string]: ActionType}, action, n) => {
+        this[action] = false
+        keys[n].forEach(key => {
+          m[key] = action
+        })
+        return m
+      },
+      {}
+    )
+
+    this.keyQ = {
+      isAction: false,
+      isEscape: false
+    }
 
     document.addEventListener('keydown', (event: KeyboardEvent) => {
-      this._setKey(event, event.key, true)
+      this.toggleKey(event, true)
     })
 
     document.addEventListener('keyup', (event: KeyboardEvent) => {
-      this._setKey(event, event.key, false)
+      this.toggleKey(event, false)
     })
   }
 
-  _setKey (event: KeyboardEvent, key: string, value: boolean) {
-    const prop = keyMap[key]
-    if (prop != null) {
-      this[prop] = value
-      event.preventDefault()
-    }
+  toggleKey (event: KeyboardEvent, state: boolean) {
+    const action = this.keyMap[event.key]
+    if (action == null) return
+
+    this[action] = state
+    this.keyQ[action] = state
   }
 }
 

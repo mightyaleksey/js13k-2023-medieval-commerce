@@ -12,7 +12,7 @@ export class PlayerSystem extends System<void, Player> {
   }
 
   update () {
-    const [tile, , walk, , action] = this.entities[0].components
+    const [tile, , walk, haul, action] = this.entities[0].components
 
     const isMoving =
       controls.isDown ||
@@ -29,8 +29,14 @@ export class PlayerSystem extends System<void, Player> {
       walk.y = tile.y + (controls.isUp ? -1 : controls.isDown ? 1 : 0)
     }
 
-    if (controls.isAction) {
-      action.type = Actions.Grab
+    if (
+      controls.isAction &&
+      controls.keyQ.isAction
+    ) {
+      controls.keyQ.isAction = false
+      action.type = haul.tile != null
+        ? Actions.Drop
+        : Actions.Grab
     }
   }
 }
