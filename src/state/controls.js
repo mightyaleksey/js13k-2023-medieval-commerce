@@ -1,4 +1,5 @@
 /* @flow */
+
 type ActionType =
   | 'isUp'
   | 'isLeft'
@@ -26,25 +27,27 @@ const keys = [
 ]
 
 class Controls {
-  isUp: boolean
-  isLeft: boolean
-  isDown: boolean
-  isRight: boolean
-  isAction: boolean
-  isEscape: boolean
-
   keyMap: {
     [string]: ActionType
   }
 
-  keyQ: {
+  // can be modified, so we can distinguish
+  // different attempts to press the button
+  q: {
     [ActionType]: boolean
   }
+
+  // represents keyboard state
+  s: $ReadOnly<{
+    [ActionType]: boolean
+  }>
 
   constructor () {
     this.keyMap = actions.reduce(
       (m: {[string]: ActionType}, action, n) => {
-        this[action] = false
+        this.q[action] = false
+        // $FlowIgnore[cannot-write]
+        this.s[action] = false
         keys[n].forEach(key => {
           m[key] = action
         })
@@ -52,11 +55,6 @@ class Controls {
       },
       {}
     )
-
-    this.keyQ = {
-      isAction: false,
-      isEscape: false
-    }
 
     document.addEventListener('keydown', (event: KeyboardEvent) => {
       this.toggleKey(event, true)
@@ -71,8 +69,9 @@ class Controls {
     const action = this.keyMap[event.key]
     if (action == null) return
 
-    this[action] = state
-    this.keyQ[action] = state
+    this.q[action] = state
+    // $FlowIgnore[cannot-write]
+    this.s[action] = state
   }
 }
 
