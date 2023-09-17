@@ -2,7 +2,7 @@
 import { Component } from './game-elements'
 import { Tile, Walk } from '../components'
 
-import { gameMapWidth, gameMapHeight, isObstacle } from './tiles'
+import { gameMapWidth, gameMapHeight, isObstacleTile } from './tiles'
 import { isInstanceOf } from './helpers'
 
 export const Actions = {
@@ -66,7 +66,7 @@ export function genObstacleMap (
     (map, component) => {
       if (
         isInstanceOf(component, Tile) &&
-        isObstacle(component)
+        isObstacleTile(component)
       ) {
         map[
           genObstacleKey(

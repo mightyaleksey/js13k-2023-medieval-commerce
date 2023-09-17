@@ -1,5 +1,5 @@
 /* @flow */
-import { Tile } from '../components'
+import type { Tile } from '../components'
 
 import { invariant } from './guard'
 
@@ -20,10 +20,6 @@ export const Layers: {[LayersKeyType]: LayersType} = {
   ObjectSmall: 2,
   Object: 4,
   Sky: 9
-}
-
-export function isObstacle (tile: Tile): boolean {
-  return tile.layer % 2 === 0
 }
 
 export opaque type TilesType = number
@@ -150,13 +146,17 @@ export function genTileData (
   return tilesData
 }
 
-function isCharacter (tile: Tile): boolean {
-  return ( // todo replace with instanceof
+function isCharacterTile (tile: Tile): boolean {
+  return (
     tile.tileID === Tiles.CHARACTER_00 ||
     tile.tileID === Tiles.CHARACTER_10 ||
     tile.tileID === Tiles.CHARACTER_20 ||
     tile.tileID === Tiles.CHARACTER_30
   )
+}
+
+export function isObstacleTile (tile: Tile): boolean {
+  return tile.layer % 2 === 0
 }
 
 export function compareTiles (
@@ -165,8 +165,8 @@ export function compareTiles (
 ): number {
   if (left.layer !== right.layer) return left.layer - right.layer
   if (left.x !== right.x) {
-    if (isCharacter(left)) return -1
-    if (isCharacter(right)) return 1
+    if (isCharacterTile(left)) return -1
+    if (isCharacterTile(right)) return 1
   }
   return left.y - right.y
 }
