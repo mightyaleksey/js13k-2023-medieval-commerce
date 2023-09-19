@@ -51,8 +51,8 @@ export class GameController {
   }
 
   update (elapsedFrames: number) {
-    const totalFrames = this._totalFrames / 10
-    this._totalFrames = (this._totalFrames + (elapsedFrames * 10) >> 0) % 10000
+    const totalFrames = this._totalFrames / 100
+    this._totalFrames = (this._totalFrames + (elapsedFrames * 100) >> 0) % 100000
 
     this._systems.forEach(system => {
       const entitiesLength = system.entities.length

@@ -19,4 +19,15 @@ export class Character extends Entity {
   }
 }
 
+export class Carrier extends Character {
+  constructor () {
+    super()
+
+    const carrierTile = this.components[0]
+    carrierTile.tileID = Tiles.CHARACTER_20
+    carrierTile.x = -1
+    carrierTile.y = 13
+  }
+}
+
 export class Player extends Character {}

@@ -69,10 +69,12 @@ export class Haul extends Component {
 }
 
 export class Action extends Component {
+  elapsedFrames: number
   type: ActionsType
 
   constructor () {
     super()
+    this.elapsedFrames = 0
     this.type = Actions.Idle
   }
 }

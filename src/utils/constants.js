@@ -4,12 +4,15 @@ export type ActionsKeyType =
   | 'Idle'
   | 'Grab'
   | 'Drop'
+  | 'CarrierReveal'
 
 // todo add npc actions
 export const Actions: {[ActionsKeyType]: ActionsType} = {
   Idle: 0,
   Grab: 1,
-  Drop: 2
+  Drop: 2,
+
+  CarrierReveal: 11
 }
 
 export opaque type StatesType = number

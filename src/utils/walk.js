@@ -64,3 +64,16 @@ export function genObstacleMap (
     obstacleMap
   )
 }
+
+export function goTo (
+  walk: Walk,
+  x: number,
+  y: number
+) {
+  walk.isActive = true
+  walk.isBlocked = false
+  walk.isVerified = false
+
+  walk.x = x
+  walk.y = y
+}
