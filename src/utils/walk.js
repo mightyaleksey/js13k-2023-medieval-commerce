@@ -5,12 +5,6 @@ import { Tile, Walk } from '../components'
 import { gameMapWidth, gameMapHeight, isObstacleTile } from './tiles'
 import { isInstanceOf } from './helpers'
 
-export const Actions = {
-  Idle: 0,
-  Grab: 1,
-  Drop: 2
-}
-
 // maps angle to coordinate offset
 export const offsetX = [0, 1, 0, -1]
 export const offsetY = [-1, 0, 1, 0]

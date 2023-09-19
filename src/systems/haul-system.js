@@ -4,8 +4,8 @@ import { Sack } from '@/entities/sack'
 import { System } from '@/utils/game-elements'
 import { Tile } from '../components'
 
+import { Actions } from '@/utils/constants'
 import {
-  Actions,
   genObstacleKey, genObstacleMap,
   offsetX, offsetY
 } from '@/utils/walk'

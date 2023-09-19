@@ -1,7 +1,8 @@
 /* @flow */
+import type { ActionsType } from './utils/constants'
 import type { LayersType, TilesType } from '@/utils/tiles'
 
-import { Actions } from './utils/walk'
+import { Actions } from './utils/constants'
 import { Component } from './utils/game-elements'
 
 export class Tile extends Component {
@@ -64,7 +65,7 @@ export class Haul extends Component {
 }
 
 export class Action extends Component {
-  type: number
+  type: ActionsType
 
   constructor () {
     super()

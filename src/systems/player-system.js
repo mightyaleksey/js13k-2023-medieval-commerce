@@ -2,8 +2,7 @@
 import { Player } from '@/entities/character'
 import { System } from '@/utils/game-elements'
 
-import { Actions } from '@/utils/walk'
-import { States } from '@/utils/constants'
+import { Actions, States } from '@/utils/constants'
 import controls from '@/state/controls'
 import game from '@/state/game'
 
