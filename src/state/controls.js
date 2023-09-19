@@ -43,6 +43,8 @@ class Controls {
   }>
 
   constructor () {
+    this.q = {}
+    this.s = {}
     this.keyMap = actions.reduce(
       (m: {[string]: ActionType}, action, n) => {
         this.q[action] = false

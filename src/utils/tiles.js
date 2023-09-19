@@ -114,7 +114,7 @@ export function genTileData (
     canvasContext.imageSmoothingEnabled = false
     const halfWidth = clientTileWidth / 2
 
-    Object.values(Tiles).forEach(tileID => {
+    Object.values(Tiles).forEach((tileID: TilesType) => {
       invariant(typeof tileID === 'number')
       const angle = Math.floor(tileID / 1000)
       const position = tileID % 100
@@ -133,9 +133,7 @@ export function genTileData (
       )
       canvasContext.restore()
 
-      // $FlowFixMe[incompatible-type]
       tilesData[tileID] = new window.Image()
-      // $FlowFixMe[incompatible-type]
       tilesData[tileID].src = canvas.toDataURL('image/png')
     })
 
