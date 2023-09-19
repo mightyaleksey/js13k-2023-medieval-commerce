@@ -144,17 +144,15 @@ export function genTileData (
   return tilesData
 }
 
-function isCharacterTile (tile: Tile): boolean {
-  return (
-    tile.tileID === Tiles.CHARACTER_00 ||
-    tile.tileID === Tiles.CHARACTER_10 ||
-    tile.tileID === Tiles.CHARACTER_20 ||
-    tile.tileID === Tiles.CHARACTER_30
-  )
-}
-
 export function isObstacleTile (tile: Tile): boolean {
   return tile.layer % 2 === 0
+}
+
+export function isSackTile (tile: Tile): boolean {
+  return (
+    tile.tileID === Tiles.SACK_GRAIN_00 ||
+    tile.tileID === Tiles.SACK_SALT_00
+  )
 }
 
 export function compareTiles (
@@ -163,8 +161,8 @@ export function compareTiles (
 ): number {
   if (left.layer !== right.layer) return left.layer - right.layer
   if (left.x !== right.x) {
-    if (isCharacterTile(left)) return -1
-    if (isCharacterTile(right)) return 1
+    if (isSackTile(left)) return 1
+    if (isSackTile(right)) return -1
   }
   return left.y - right.y
 }
