@@ -3,11 +3,9 @@ import { Character } from '@/entities/character'
 import { System } from '@/utils/game-elements'
 import { Tile } from '../components'
 
-import {
-  genObstacleKey, genObstacleMap,
-  getAngle, getDeltaFrames,
-  offsetX, offsetY
-} from '@/utils/walk'
+import {States} from '@/utils/constants'
+import { genObstacleKey, genObstacleMap, getAngle, offsetX, offsetY } from '@/utils/walk'
+import game from '@/state/game'
 
 const stepTreshold = 0.2
 const walkTreshold = 1.5
@@ -20,6 +18,8 @@ export class WalkSystem extends System<Tile, Character> {
   }
 
   update (elapsedFrames: number, totalFrames: number) {
+    if (game.state !== States.Running) return
+
     const obstacleMap = genObstacleMap(this.components)
 
     // plan:
@@ -33,15 +33,16 @@ export class WalkSystem extends System<Tile, Character> {
       if (!walk.isVerified) {
         walk.isBlocked = obstacleMap[genObstacleKey(walk.x, walk.y)] === 1
         walk.isVerified = true
-        walk.startFrame = totalFrames
+        walk.elapsedFrames = 0
       }
 
       const angle = direction.angle = getAngle(walk, tile)
       const walkDelta = walk.speed * elapsedFrames
+      walk.elapsedFrames += elapsedFrames
 
       if (
         walk.isBlocked &&
-        getDeltaFrames(totalFrames, walk.startFrame) > stepTreshold / walk.speed
+        walk.elapsedFrames > stepTreshold / walk.speed
       ) {
         // return back to original tile position after hitting obstacle
         if (angle % 2 === 0) {

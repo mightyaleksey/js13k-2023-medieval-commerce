@@ -5,6 +5,10 @@ import type { LayersType, TilesType } from '@/utils/tiles'
 import { Actions } from './utils/constants'
 import { Component } from './utils/game-elements'
 
+export class Menu extends Component {
+
+}
+
 export class Tile extends Component {
   layer: LayersType
   tileID: TilesType
@@ -38,8 +42,8 @@ export class Walk extends Component {
   isActive: boolean
   isBlocked: boolean
   isVerified: boolean
+  elapsedFrames: number
   speed: number
-  startFrame: number
   x: number
   y: number
 
@@ -48,8 +52,8 @@ export class Walk extends Component {
     this.isActive = false
     this.isBlocked = false
     this.isVerified = false
+    this.elapsedFrames = 0
     this.speed = 0.05
-    this.startFrame = 0
     this.x = 0
     this.y = 0
   }

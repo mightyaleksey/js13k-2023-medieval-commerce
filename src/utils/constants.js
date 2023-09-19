@@ -14,8 +14,14 @@ export const Actions: {[ActionsKeyType]: ActionsType} = {
 
 export opaque type StatesType = number
 export type StatesKeyType =
+  | 'CleanUp'
+  | 'Paused'
+  | 'Preset'
   | 'Running'
 
 export const States: {[StatesKeyType]: StatesType} = {
+  CleanUp: 0,
+  Preset: 1,
+  Paused: 2,
   Running: 3
 }

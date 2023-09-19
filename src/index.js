@@ -5,7 +5,6 @@ import { HaulSystem } from './systems/haul-system'
 import { PlayerSystem } from './systems/player-system'
 import { RenderSystem } from './systems/render-system'
 import { WalkSystem } from './systems/walk-system'
-import { Sack } from './entities/sack'
 import { World } from './entities/world'
 
 import { GameController } from './utils/game-controller'
@@ -13,7 +12,7 @@ import { GameController } from './utils/game-controller'
 const gameController = new GameController(
   [RenderSystem, WalkSystem, HaulSystem,
     GameSystem, PlayerSystem],
-  [World, Sack]
+  [World]
 )
 
 // env variables https://vitejs.dev/guide/env-and-mode.html#env-variables-and-modes

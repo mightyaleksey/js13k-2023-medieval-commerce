@@ -3,39 +3,97 @@ import { Character } from '@/entities/character'
 import { Sack } from '@/entities/sack'
 import { Component, Entity, System } from '@/utils/game-elements'
 
+import { States } from '@/utils/constants'
 import { bgColor } from '@/utils/tiles'
 import { isInstanceOf } from '@/utils/helpers'
 import { invariant } from '@/utils/guard'
+import game from '@/state/game'
 
 export class LoggerSystem extends System<void, Character | Sack> {
-  _container: HTMLPreElement
+  _container: HTMLDivElement
+  _textContainer: HTMLPreElement
 
   constructor () {
     super()
     this._requiredEntities = [Character, Sack]
 
-    this._container = document.createElement('pre')
-    invariant(this._container instanceof window.HTMLPreElement)
+    this._container = document.createElement('div')
+    invariant(this._container instanceof window.HTMLDivElement)
     this._container.style = [
       'max-width: 30rem;',
       'padding: 1rem;',
-      'font-size: 14px;',
-      'white-space: pre-wrap;',
-      `background-color: ${bgColor};`,
-      'color: white;',
-      'opacity: 0.7;',
+
       'position: absolute;',
       'top: 50%;',
-      'transform: translateY(-50%);'
+      'transform: translateY(-50%);',
+
+      'font-size: 14px;',
+      `background-color: ${bgColor};`,
+      'color: white;',
+      'opacity: 0.7;'
     ].join('')
+
+    this._textContainer = document.createElement('pre')
+    invariant(this._textContainer instanceof window.HTMLPreElement)
+    this._textContainer.style = [
+      'margin: 0 0 1em;',
+      'white-space: pre-wrap;'
+    ].join('')
+
+    this._container.append(this._textContainer)
+
+    const playPause = createButton(
+      'Play / Pause',
+      () => {
+        if ([States.Paused, States.Running].includes(game.state)) {
+          game.state = game.state === States.Running
+            ? States.Paused
+            : States.Running
+        }
+      }
+    )
+
+    this._container.append(playPause)
+
+    const reset = createButton(
+      'Reset',
+      () => {
+        game.state = States.CleanUp
+      }
+    )
+
+    this._container.append(reset)
 
     document.body?.append(this._container)
   }
 
   update () {
     const content = this.entities.map(serializeObject).join('\n\n')
-    this._container.innerHTML = content
+    this._textContainer.innerHTML = content
   }
+}
+
+function createButton (
+  title: string,
+  handler: () => mixed
+): HTMLButtonElement {
+  const button = document.createElement('button')
+  invariant(button instanceof window.HTMLButtonElement)
+  button.innerHTML = title
+  button.style = [
+    'display: inline-block;',
+    'margin: 0 .5em 0 0;',
+    'padding: .2em .5em;',
+    'border: 0;',
+
+    'font-size: 1rem;',
+    'background-color: #2e4840;',
+    'color: white;'
+  ].join('')
+
+  button.addEventListener('click', handler)
+
+  return button
 }
 
 function serializeObject (

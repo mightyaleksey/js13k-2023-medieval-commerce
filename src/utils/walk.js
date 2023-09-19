@@ -21,17 +21,6 @@ export function getAngle (
   return 0
 }
 
-// frame range [0, 1000], after 1000 it is reset to 0
-// expected delta (output) range [0, 20]
-export function getDeltaFrames (
-  currentFrame: number,
-  startFrame: number
-): number {
-  const delta = currentFrame - startFrame
-  if (delta < 0) return delta + 1000
-  return delta
-}
-
 /**
  *   -2 0      7
  * -2        x

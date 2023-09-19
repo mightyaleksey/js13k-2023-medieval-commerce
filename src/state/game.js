@@ -7,7 +7,7 @@ class Game {
   state: StatesType
 
   constructor () {
-    this.state = States.Running
+    this.state = States.Preset
   }
 }
 

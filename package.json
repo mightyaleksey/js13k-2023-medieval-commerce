@@ -41,7 +41,9 @@
       "ReturnType",
       "ThisParameterType",
       "CanvasRenderingContext2D",
+      "HTMLButtonElement",
       "HTMLCanvasElement",
+      "HTMLDivElement",
       "HTMLImageElement",
       "HTMLPreElement",
       "KeyboardEvent"
