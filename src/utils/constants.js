@@ -5,6 +5,9 @@ export type ActionsKeyType =
   | 'Grab'
   | 'Drop'
   | 'CarrierReveal'
+  | 'CustomerGoShopping'
+  | 'CustomerRequest'
+  | 'CustomerLeave'
 
 // todo add npc actions
 export const Actions: {[ActionsKeyType]: ActionsType} = {
@@ -12,7 +15,11 @@ export const Actions: {[ActionsKeyType]: ActionsType} = {
   Grab: 1,
   Drop: 2,
 
-  CarrierReveal: 11
+  CarrierReveal: 11,
+
+  CustomerGoShopping: 21,
+  CustomerRequest: 22,
+  CustomerLeave: 23
 }
 
 export opaque type StatesType = number

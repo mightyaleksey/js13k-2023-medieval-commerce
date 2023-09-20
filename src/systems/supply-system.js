@@ -2,8 +2,9 @@
 import { Carrier } from '@/entities/character'
 import { System } from '@/utils/game-elements'
 
-import { Actions } from '@/utils/constants'
+import { Actions, States } from '@/utils/constants'
 import { goTo } from '@/utils/walk'
+import game from '@/state/game'
 
 export class SupplySystem extends System<void, Carrier> {
   constructor () {
@@ -12,8 +13,10 @@ export class SupplySystem extends System<void, Carrier> {
   }
 
   update (elapsedFrames: number, totalFrames: number) {
+    if (game.state !== States.Running) return
+
     const carrier = this.entities[0]
-    const [, direction, walk, , action] = carrier.components
+    const [, , walk, , action] = carrier.components
 
     switch (action.type) {
       case Actions.Idle:

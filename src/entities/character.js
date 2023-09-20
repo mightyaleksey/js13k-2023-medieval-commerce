@@ -5,7 +5,8 @@ import { Action, Direction, Haul, Tile, Walk } from '../components'
 import { Layers, Tiles } from '@/utils/tiles'
 
 export class Character extends Entity {
-  components: [Tile, Direction, Walk, Haul, Action]
+  // eslint-disable-next-line no-undef
+  components: [Tile, Direction, Walk, Haul, Action, sack?: Tile]
 
   constructor () {
     super()
@@ -30,4 +31,5 @@ export class Carrier extends Character {
   }
 }
 
+export class Customer extends Character {}
 export class Player extends Character {}

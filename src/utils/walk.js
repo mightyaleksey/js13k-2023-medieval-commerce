@@ -70,6 +70,8 @@ export function goTo (
   x: number,
   y: number
 ) {
+  if (walk.isActive) return
+
   walk.isActive = true
   walk.isBlocked = false
   walk.isVerified = false

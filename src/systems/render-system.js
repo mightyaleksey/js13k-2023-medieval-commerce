@@ -5,6 +5,7 @@ import { System } from '@/utils/game-elements'
 import { Tile } from '../components'
 
 import {
+  Layers,
   bgColor,
   gameMapWidth, gameMapHeight,
   compareTiles, genTileData
@@ -77,10 +78,14 @@ export class RenderSystem extends System<Tile, void> {
 
         const image = tilesData[tile.tileID]
 
+        if (tile.layer === Layers.Effect) canvasContext.globalAlpha = 0.8
+
         canvasContext.drawImage(
           image,
           offsetX, offsetY
         )
+
+        if (tile.layer === Layers.Effect) canvasContext.globalAlpha = 1
       })
   }
 }

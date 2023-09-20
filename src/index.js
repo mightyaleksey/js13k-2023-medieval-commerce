@@ -5,6 +5,7 @@ import { HaulSystem } from './systems/haul-system'
 import { PlayerSystem } from './systems/player-system'
 import { RenderSystem } from './systems/render-system'
 import { SupplySystem } from './systems/supply-system'
+import { TradeSystem } from './systems/trade-system'
 import { WalkSystem } from './systems/walk-system'
 import { World } from './entities/world'
 
@@ -12,7 +13,7 @@ import { GameController } from './utils/game-controller'
 
 const gameController = new GameController(
   [RenderSystem, WalkSystem, HaulSystem,
-    GameSystem, SupplySystem, PlayerSystem],
+    GameSystem, SupplySystem, TradeSystem, PlayerSystem],
   [World]
 )
 

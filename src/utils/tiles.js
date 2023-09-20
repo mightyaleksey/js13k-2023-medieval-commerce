@@ -10,6 +10,7 @@ export const gameTileWidth = 16
 
 export opaque type LayersType = number
 export type LayersKeyType =
+  | 'Effect'
   | 'Object'
   | 'ObjectSmall'
   | 'Sky'
@@ -19,6 +20,7 @@ export const Layers: {[LayersKeyType]: LayersType} = {
   Surface: 1,
   ObjectSmall: 2,
   Object: 4,
+  Effect: 5,
   Sky: 9
 }
 
