@@ -3,7 +3,7 @@ import { Character } from '@/entities/character'
 import { System } from '@/utils/game-elements'
 import { Tile } from '../components'
 
-import {States} from '@/utils/constants'
+import { States } from '@/utils/constants'
 import { genObstacleKey, genObstacleMap, getAngle, offsetX, offsetY } from '@/utils/walk'
 import game from '@/state/game'
 

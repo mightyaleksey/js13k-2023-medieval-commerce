@@ -5,6 +5,7 @@ import { System } from '@/utils/game-elements'
 
 import { States } from '@/utils/constants'
 import { Tiles } from '@/utils/tiles'
+import { genEntity, iterate } from '@/utils/helpers'
 import game from '@/state/game'
 
 export class GameSystem extends System<void, Character | Sack> {
@@ -28,17 +29,19 @@ export class GameSystem extends System<void, Character | Sack> {
         game.silver = 0
         game.state = States.Running
 
-        const customer = new Customer()
-        const customerTile = customer.components[0]
-        customerTile.tileID = Tiles.CHARACTER_10
-        customerTile.x = 12
-        customerTile.y = -1
+        iterate(5, 9, x => {
+          const tileID = x < 7 ? Tiles.SACK_GRAIN_00 : Tiles.SACK_SALT_00
+          const sack = genEntity(Sack, x, 7, tileID)
+          this.entities.push(sack)
+        })
+
+        // todo add helper to generate entity with custom tile
+        const customer = genEntity(Customer, 12, -1, Tiles.CHARACTER_10)
+        this.entities.push(customer)
 
         this.entities.push(
-          customer,
           new Carrier(),
-          new Player(),
-          new Sack()
+          new Player()
         )
 
         break

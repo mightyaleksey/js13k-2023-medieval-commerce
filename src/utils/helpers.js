@@ -1,5 +1,23 @@
 /* @flow */
+import type { Character } from '@/entities/character'
+import type { Sack } from '@/entities/sack'
+import type { TilesType } from './tiles'
+
 import { nullthrows } from './guard'
+
+export function genEntity<T: Character | Sack> (
+  Factory: Class<T>,
+  x: number,
+  y: number,
+  tileID?: TilesType
+): T {
+  const entity = new Factory()
+  const tile = entity.components[0]
+  tile.x = x
+  tile.y = y
+  if (tileID != null) tile.tileID = tileID
+  return entity
+}
 
 export function isInstanceOf<T> (
   instance: mixed,
@@ -46,4 +64,18 @@ export function range (
   }
 
   return elements
+}
+
+export function random (
+  start: number,
+  end?: number
+): number {
+  if (typeof end !== 'number') {
+    end = start
+    start = 0
+  }
+
+  return Math.round(
+    Math.random() * (end - start)
+  ) + start
 }

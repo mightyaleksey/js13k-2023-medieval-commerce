@@ -104,7 +104,15 @@ export class TradeSystem extends System<void, Customer | Sack> {
           }
 
           if (tile.x === 18) {
-            // remove sack
+            if (haul.tile != null) {
+              // remove sack
+              const sackTile = haul.tile
+              const sackIndex = this.entities.findIndex(sack => sack.components[0] === sackTile)
+              this.entities.splice(sackIndex, 1)
+
+              haul.tile = null
+            }
+
             action.type = Actions.Idle
           }
 

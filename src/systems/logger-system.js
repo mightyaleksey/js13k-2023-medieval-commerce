@@ -1,6 +1,5 @@
 /* @flow */
 import { Character } from '@/entities/character'
-import { Sack } from '@/entities/sack'
 import { Component, Entity, System } from '@/utils/game-elements'
 
 import { States } from '@/utils/constants'
@@ -9,13 +8,13 @@ import { isInstanceOf } from '@/utils/helpers'
 import { invariant } from '@/utils/guard'
 import game from '@/state/game'
 
-export class LoggerSystem extends System<void, Character | Sack> {
+export class LoggerSystem extends System<void, Character> {
   _container: HTMLDivElement
   _textContainer: HTMLPreElement
 
   constructor () {
     super()
-    this._requiredEntities = [Character, Sack]
+    this._requiredEntities = [Character]
 
     this._container = document.createElement('div')
     invariant(this._container instanceof window.HTMLDivElement)

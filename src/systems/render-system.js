@@ -77,6 +77,7 @@ export class RenderSystem extends System<Tile, void> {
         const offsetY = borderTop + clientTileWidth * tile.y
 
         const image = tilesData[tile.tileID]
+        invariant(image != null, 'Invalid tileID')
 
         if (tile.layer === Layers.Effect) canvasContext.globalAlpha = 0.8
 

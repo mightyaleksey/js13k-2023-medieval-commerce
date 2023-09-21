@@ -4,7 +4,8 @@ export type ActionsKeyType =
   | 'Idle'
   | 'Grab'
   | 'Drop'
-  | 'CarrierReveal'
+  | 'CarrierGoStorage'
+  | 'CarrierLeave'
   | 'CustomerGoShopping'
   | 'CustomerRequest'
   | 'CustomerLeave'
@@ -15,7 +16,8 @@ export const Actions: {[ActionsKeyType]: ActionsType} = {
   Grab: 1,
   Drop: 2,
 
-  CarrierReveal: 11,
+  CarrierGoStorage: 11,
+  CarrierLeave: 13,
 
   CustomerGoShopping: 21,
   CustomerRequest: 22,
