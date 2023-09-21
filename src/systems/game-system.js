@@ -35,9 +35,10 @@ export class GameSystem extends System<void, Character | Sack> {
           this.entities.push(sack)
         })
 
-        // todo add helper to generate entity with custom tile
-        const customer = genEntity(Customer, 12, -1, Tiles.CHARACTER_10)
-        this.entities.push(customer)
+        const customer1 = genEntity(Customer, 12, -1, Tiles.CHARACTER_10)
+        const customer2 = genEntity(Customer, 12, -1, Tiles.CHARACTER_30)
+        customer2.components[4].elapsedFrames = -300
+        this.entities.push(customer1, customer2)
 
         this.entities.push(
           new Carrier(),
