@@ -1,16 +1,13 @@
-import { defineConfig, IndexHtmlTransformContext, Plugin } from 'vite'
-import path from 'path'
-import fs from 'fs/promises'
-import typescriptPlugin from '@rollup/plugin-typescript'
-import { OutputAsset, OutputChunk } from 'rollup'
-import { Input, InputAction, InputType, Packer } from 'roadroller'
+import { Packer } from 'roadroller'
+import { defineConfig } from 'vite'
 import CleanCSS from 'clean-css'
-import { statSync } from 'fs'
 import ect from 'ect-bin'
-
-const { execFileSync } = require('child_process')
-
-const htmlMinify = require('html-minifier')
+import htmlMinify from 'html-minifier'
+import { flowPlugin, esbuildFlowPlugin } from '@bunchtogether/vite-plugin-flow'
+import { execFileSync } from 'child_process'
+import { statSync } from 'fs'
+import fs from 'fs/promises'
+import path from 'path'
 
 export default defineConfig(({ command, mode }) => {
   const config = {
@@ -22,7 +19,15 @@ export default defineConfig(({ command, mode }) => {
         '@': path.resolve(__dirname, './src')
       }
     },
-    plugins: undefined
+    optimizeDeps: {
+      esbuildOptions: {
+        // esbuild babel does not support flow enums :(
+        // switching to hermes target results in errors with "const"
+        plugins: [esbuildFlowPlugin(/\.js$/)]
+      }
+    },
+    esbuild: false,
+    plugins: [flowPlugin()]
   }
 
   if (command === 'build') {
@@ -46,21 +51,18 @@ export default defineConfig(({ command, mode }) => {
       }
     }
     // @ts-ignore
-    config.plugins = [typescriptPlugin(), roadrollerPlugin(), ectPlugin()]
+    config.plugins = [flowPlugin(), roadrollerPlugin(), ectPlugin()]
   }
 
   return config
 })
 
-function roadrollerPlugin (): Plugin {
+function roadrollerPlugin () {
   return {
     name: 'vite:roadroller',
     transformIndexHtml: {
       enforce: 'post',
-      transform: async (
-        html: string,
-        ctx?: IndexHtmlTransformContext
-      ): Promise<string> => {
+      transform: async (html, ctx) => {
         // Only use this plugin during build
         if (!ctx || !ctx.bundle) {
           return html
@@ -86,11 +88,11 @@ function roadrollerPlugin (): Plugin {
         const bundleOutputs = Object.values(ctx.bundle)
         const javascript = bundleOutputs.find((output) =>
           output.fileName.endsWith('.js')
-        ) as OutputChunk
-        // @ts-ignore
+        )
+
         const css = bundleOutputs.find((output) =>
           output.fileName.endsWith('.css')
-        ) as OutputAsset
+        )
         const otherBundleOutputs = bundleOutputs.filter(
           (output) => output !== javascript
         )
@@ -114,18 +116,18 @@ function roadrollerPlugin (): Plugin {
  * @param chunk The JavaScript output chunk from Rollup/Vite.
  * @returns The transformed HTML with the JavaScript embedded.
  */
-async function embedJs (html: string, chunk: OutputChunk): Promise<string> {
+async function embedJs (html, chunk) {
   const scriptTagRemoved = html.replace(
     new RegExp(`<script[^>]*?src=[./]*${chunk.fileName}[^>]*?></script>`),
     ''
   )
   const htmlInJs = `document.write('${scriptTagRemoved}');` + chunk.code.trim()
 
-  const inputs: Input[] = [
+  const inputs = [
     {
       data: htmlInJs,
-      type: 'js' as InputType,
-      action: 'eval' as InputAction
+      type: 'js',
+      action: 'eval'
     }
   ]
 
@@ -159,12 +161,12 @@ async function embedJs (html: string, chunk: OutputChunk): Promise<string> {
  * @param asset The CSS asset.
  * @returns The transformed HTML with the CSS embedded.
  */
-function embedCss (html: string, asset: OutputAsset): string {
+function embedCss (html, asset) {
   const reCSS = new RegExp(
     `<link rel="stylesheet"[^>]*?href="[./]*${asset.fileName}"[^>]*?>`
   )
   const code = `<style>${
-    new CleanCSS({ level: 2 }).minify(asset.source as string).styles
+    new CleanCSS({ level: 2 }).minify(asset.source).styles
   }</style>`
   return html.replace(reCSS, code)
 }
@@ -173,10 +175,10 @@ function embedCss (html: string, asset: OutputAsset): string {
  * Creates the ECT plugin that uses Efficient-Compression-Tool to build a zip file.
  * @returns The ECT plugin.
  */
-function ectPlugin (): Plugin {
+function ectPlugin () {
   return {
     name: 'vite:ect',
-    writeBundle: async (): Promise<void> => {
+    writeBundle: async () => {
       try {
         const files = await fs.readdir('dist/')
         const assetFiles = files

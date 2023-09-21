@@ -2,6 +2,10 @@
   "editor.detectIndentation": false,
   "editor.insertSpaces": true,
   "editor.tabSize": 2,
+  "javascript.validate.enable": false,
+  "typescript.disableAutomaticTypeAcquisition": true,
+  "typescript.suggest.completeJSDocs": false,
+  "typescript.validate.enable": false,
   "standard.autoFixOnSave": true,
   "standard.enable": true,
   "standard.options": {},
@@ -10,8 +14,5 @@
   },
   "[typescript]": {
     "editor.defaultFormatter": "standard.vscode-standard"
-  },
-  "cSpell.words": [
-    "Collidable"
-  ]
+  }
 }

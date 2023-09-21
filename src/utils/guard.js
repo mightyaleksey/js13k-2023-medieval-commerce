@@ -1,10 +1,12 @@
-export function invariant (condition: unknown, message?: string) {
+/* @flow */
+
+export function invariant (condition: mixed, message?: string) {
   if (!condition) {
     throw new Error(message ?? 'Invariant violation')
   }
 }
 
-export function nullthrows <T> (value?: T | null | void, message?: string): T {
+export function nullthrows<T> (value: ?T, message?: string): T {
   if (value == null) {
     throw new Error(message ?? 'Got unexpected null')
   }

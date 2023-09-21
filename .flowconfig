@@ -1,0 +1,16 @@
+[ignore]
+.*/node_modules/resolve/.*
+
+[include]
+
+[libs]
+/flow-typed
+
+[lints]
+
+[options]
+enums=true
+module.name_mapper='^@' -> '<PROJECT_ROOT>/src'
+server.max_workers=2
+
+[strict]
