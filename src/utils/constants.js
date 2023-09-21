@@ -27,6 +27,9 @@ export const Actions: {[ActionsKeyType]: ActionsType} = {
 export opaque type StatesType = number
 export type StatesKeyType =
   | 'CleanUp'
+  | 'Final'
+  | 'Intro1'
+  | 'Intro2'
   | 'Paused'
   | 'Preset'
   | 'Running'
@@ -34,6 +37,9 @@ export type StatesKeyType =
 export const States: {[StatesKeyType]: StatesType} = {
   CleanUp: 0,
   Preset: 1,
-  Paused: 2,
-  Running: 3
+  Intro1: 2,
+  Intro2: 3,
+  Paused: 4,
+  Running: 5,
+  Final: 6
 }

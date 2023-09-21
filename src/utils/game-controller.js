@@ -56,7 +56,7 @@ export class GameController {
 
     this._systems.forEach(system => {
       const entitiesLength = system.entities.length
-      const componentsLength = system.entities.map(e => e.components?.length ?? 0)
+      const entityComponentsLength = system.entities.map(e => e.components?.length ?? 0)
       system.update(elapsedFrames, totalFrames)
 
       if (
@@ -66,7 +66,7 @@ export class GameController {
         this._updateComponentsRegistry()
         this._systems.forEach(s => this._updateSystem(s))
       } else if (
-        componentsLength.some((ct, n) => system.entities[n].length !== ct)
+        entityComponentsLength.some((ct, n) => system.entities[n].length !== ct)
       ) {
         this._updateComponentsRegistry()
         this._systems.forEach(s => this._updateSystem(s))

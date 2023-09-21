@@ -13,9 +13,9 @@ export function genEntity<T: Character | Sack> (
 ): T {
   const entity = new Factory()
   const tile = entity.components[0]
+  if (tileID != null) tile.tileID = tileID
   tile.x = x
   tile.y = y
-  if (tileID != null) tile.tileID = tileID
   return entity
 }
 

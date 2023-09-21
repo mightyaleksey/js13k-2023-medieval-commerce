@@ -1,22 +1,63 @@
 /* @flow */
+import type { StatesType } from '@/utils/constants'
+
+import { Menu } from '../components'
+import { Interface } from '@/entities/interface'
 import { Player } from '@/entities/character'
 import { System } from '@/utils/game-elements'
 
 import { Actions, States } from '@/utils/constants'
 import { goTo } from '@/utils/walk'
+import { isInstanceOf } from '@/utils/helpers'
 import controls from '@/state/controls'
 import game from '@/state/game'
 
-export class PlayerSystem extends System<void, Player> {
+const transitions: {[StatesType]: StatesType} = {
+  // $FlowIgnore[invalid-computed-prop]
+  [States.Intro1]: States.Intro2,
+  // $FlowIgnore[invalid-computed-prop]
+  [States.Intro2]: States.Running,
+  // $FlowIgnore[invalid-computed-prop]
+  [States.Paused]: States.Running,
+  // $FlowIgnore[invalid-computed-prop]
+  [States.Final]: States.CleanUp
+}
+
+export class PlayerSystem extends System<Menu, Interface | Player> {
   constructor () {
     super()
-    this._requiredEntities = [Player]
+    this._requiredComponents = [Menu]
+    this._requiredEntities = [Interface, Player]
   }
 
   update () {
+    // $FlowFixMe[incompatible-type]
+    const it: ?Interface = this.entities.find(it => isInstanceOf(it, Interface))
+
+    if (
+      game.state === States.Intro1 ||
+      game.state === States.Intro2 ||
+      game.state === States.Paused ||
+      game.state === States.Final
+    ) {
+      if (
+        controls.s.isEscape &&
+        controls.q.isEscape
+      ) {
+        controls.q.isEscape = false
+        // $FlowIgnore[cannot-write]
+        if (it != null) it.components.length = 0
+        game.state = transitions[game.state]
+      }
+    }
+
     if (game.state === States.Running) {
       // control character
-      const [tile, , walk, haul, action] = this.entities[0].components
+      // $FlowFixMe[incompatible-type]
+      const player: Player = this.entities.find(player => isInstanceOf(player, Player))
+      if (player == null) return
+
+      const [tile, , walk, haul, action] = player.components
 
       const isMoving =
         controls.s.isDown ||
@@ -40,6 +81,14 @@ export class PlayerSystem extends System<void, Player> {
         action.type = haul.tile != null
           ? Actions.Drop
           : Actions.Grab
+      }
+
+      if (
+        controls.s.isEscape &&
+        controls.q.isEscape
+      ) {
+        controls.q.isEscape = false
+        game.state = States.Paused
       }
     }
   }

@@ -6,7 +6,17 @@ import { Actions } from './utils/constants'
 import { Component } from './utils/game-elements'
 
 export class Menu extends Component {
+  title: string
+  body: string
 
+  constructor (
+    title: string,
+    body: string
+  ) {
+    super()
+    this.title = title
+    this.body = body
+  }
 }
 
 export class Tile extends Component {
