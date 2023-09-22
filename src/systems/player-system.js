@@ -7,7 +7,7 @@ import { Player } from '@/entities/character'
 import { System } from '@/utils/game-elements'
 
 import { Actions, States } from '@/utils/constants'
-import { goTo } from '@/utils/walk'
+import { offsetX, offsetY, getAngleFromInput, goTo } from '@/utils/walk'
 import { isInstanceOf } from '@/utils/helpers'
 import controls from '@/state/controls'
 import game from '@/state/game'
@@ -66,10 +66,11 @@ export class PlayerSystem extends System<Menu, Interface | Player> {
         controls.s.isUp
 
       if (isMoving && !walk.isActive) {
+        const angle = getAngleFromInput(controls)
         goTo(
           walk,
-          tile.x + (controls.s.isLeft ? -1 : controls.s.isRight ? 1 : 0),
-          tile.y + (controls.s.isUp ? -1 : controls.s.isDown ? 1 : 0)
+          tile.x + offsetX[angle],
+          tile.y + offsetY[angle]
         )
       }
 
