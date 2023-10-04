@@ -7,6 +7,8 @@ Competition rules:
 
 Try demo here: [https://js13kgames.com/entries/medieval-commerce](https://js13kgames.com/entries/medieval-commerce).
 
+Updated version: [https://sullenor.github.io/js13k-2023-medieval-commerce](https://sullenor.github.io/js13k-2023-medieval-commerce/).
+
 ## Thanks
 - Andrzej Mazur for organizing and running [js13kGames](https://js13kgames.com) competition.
 - Rob Louie for making [typescript starter](https://github.com/roblouie/js13k-typescript-starter).
