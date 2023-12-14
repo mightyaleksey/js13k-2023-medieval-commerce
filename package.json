@@ -57,9 +57,9 @@
     "build-with-best-roadroller": "cross-env USE_RR_CONFIG=true vite build",
     "build": "cross-env LEVEL_2_BUILD=true vite build",
     "demo": "cd docs/ && python3 -m http.server",
+    "dev": "vite",
     "find-best-roadroller": "node find-best-roadroller.js",
     "lint": "standard",
-    "serve": "vite",
     "vite": "vite serve"
   },
   "author": "Aleksey Litvinov"

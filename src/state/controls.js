@@ -1,79 +1,79 @@
 /* @flow */
 
-type ActionType =
-  | 'isUp'
-  | 'isLeft'
-  | 'isDown'
-  | 'isRight'
-  | 'isAction'
-  | 'isEscape'
+/**
+ * Up:     38, 87
+ * Right:  39, 68
+ * Down:   40, 83
+ * Left:   37, 65
+ * Action: 13, 32
+ * Escape: 27
+ */
 
-const actions: $ReadOnlyArray<ActionType> = [
-  'isUp',
-  'isLeft',
-  'isDown',
-  'isRight',
-  'isAction',
-  'isEscape'
-]
+export const KEY_UP = 0
+export const KEY_RIGHT = 1
+export const KEY_DOWN = 2
+export const KEY_LEFT = 3
+export const KEY_ACTION = 4
+export const KEY_ESCAPE = 5
 
-const keys = [
-  ['ArrowUp', 'w', 'ц'],
-  ['ArrowLeft', 'a', 'ф'],
-  ['ArrowDown', 's', 'ы'],
-  ['ArrowRight', 'd', 'в'],
-  ['Enter', ' '],
-  ['Escape']
+const KEY_MAP = [
+  [38, 87],
+  [39, 68],
+  [40, 83],
+  [37, 65],
+  [13, 32],
+  [27]
 ]
 
 class Controls {
-  keyMap: {
-    [string]: ActionType
-  }
-
-  // can be modified, so we can distinguish
-  // different attempts to press the button
-  q: {
-    [ActionType]: boolean
-  }
-
-  // represents keyboard state
-  s: $ReadOnly<{
-    [ActionType]: boolean
-  }>
+  _progState: [number, number, number, number, number, number]
+  _userState: [number, number, number, number, number, number]
 
   constructor () {
-    this.q = {}
-    this.s = {}
-    this.keyMap = actions.reduce(
-      (m: {[string]: ActionType}, action, n) => {
-        this.q[action] = false
-        // $FlowIgnore[cannot-write]
-        this.s[action] = false
-        keys[n].forEach(key => {
-          m[key] = action
-        })
-        return m
-      },
-      {}
-    )
+    const progState = this._progState = [0, 0, 0, 0, 0, 0]
+    const userState = this._userState = [0, 0, 0, 0, 0, 0]
 
     document.addEventListener('keydown', (event: KeyboardEvent) => {
-      this.toggleKey(event, true)
+      setKey(event, 1)
     })
 
     document.addEventListener('keyup', (event: KeyboardEvent) => {
-      this.toggleKey(event, false)
+      setKey(event, 0)
     })
+
+    const keyMap = KEY_MAP.reduce((m: {[number]: number}, keyCodes, index) => {
+      keyCodes.forEach(keyCode => { m[keyCode] = index })
+      return m
+    }, {})
+
+    function setKey (event: KeyboardEvent, value: 0|1) {
+      const code = keyMap[event.keyCode]
+      if (typeof code !== 'number') return
+
+      progState[code] = value
+      userState[code] = value
+    }
   }
 
-  toggleKey (event: KeyboardEvent, state: boolean) {
-    const action = this.keyMap[event.key]
-    if (action == null) return
+  wasMoving (): boolean {
+    return (
+      this._progState[0] +
+      this._progState[1] +
+      this._progState[2] +
+      this._progState[3]
+    ) > 0
+  }
 
-    this.q[action] = state
-    // $FlowIgnore[cannot-write]
-    this.s[action] = state
+  wasOnHold (code: 0|1|2|3|4|5): boolean {
+    return this._progState[code] === 1
+  }
+
+  wasPressed (code: 0|1|2|3|4|5): boolean {
+    return (
+      this._progState[code] === 1 &&
+      this._userState[code] === 1 &&
+      !(this._userState[code] = 0)
+    )
   }
 }
 

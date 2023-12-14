@@ -26,9 +26,9 @@ export function getAngle (
 export function getAngleFromInput (
   controls: Controls
 ): number {
-  if (controls.s.isUp) return 0
-  if (controls.s.isRight) return 1
-  if (controls.s.isDown) return 2
+  if (controls.wasOnHold(0)) return 0
+  if (controls.wasOnHold(1)) return 1
+  if (controls.wasOnHold(2)) return 2
   return 3
 }
 
